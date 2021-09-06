@@ -8,4 +8,4 @@ let rootReducer = combineReducers({
     auth:authReducer
 })
 
-let store = createStore(rootReducer,applyMiddleware(thunk))
+export const store = createStore(rootReducer,applyMiddleware(thunk))
