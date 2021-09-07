@@ -12,6 +12,6 @@ export const authAPI = {
             password,
             rememberMe
         })
-            .then(res => console.log(res.data))
+            .then(res => res.data)
     }
 }
