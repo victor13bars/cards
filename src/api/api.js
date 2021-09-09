@@ -13,5 +13,16 @@ export const authAPI = {
             rememberMe
         })
             .then(res => res.data)
+    },
+    logout() {
+        return instance.delete(`auth/me`, {})
+            .then(res => res.data)
+    },
+    register(email = 'nya-admin@nya.nya', password = '1qazxcvBG') {
+        return instance.post(`auth/register`, {
+            email,
+            password
+        })
+            .then(res => res.data)
     }
 }

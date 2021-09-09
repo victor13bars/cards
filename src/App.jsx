@@ -7,8 +7,10 @@ import Profile from "./pages/Profile";
 import PasswordRecovery from "./pages/PasswordRecover";
 import PasswordNew from "./pages/PasswordNew";
 import Error from "./pages/Error";
+import {useSelector} from "react-redux";
 
 function App() {
+    const isAuth = useSelector(state => state.auth.isAuth)
     return (
         <BrowserRouter>
             <Navbar/>
@@ -21,6 +23,7 @@ function App() {
                 <Route exact path='/error' component={Error}/>
                 <Redirect to='/'/>
             </Switch>
+            {!isAuth && <Redirect to='/login'/>}
         </BrowserRouter>
     );
 }

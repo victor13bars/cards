@@ -5,6 +5,7 @@ const SET_AUTH = 'SET_AUTH'
 const SET_LOADING = 'SET_LOADING'
 const SET_ERROR = 'SET_ERROR'
 const SET_IS_ERROR = 'SET_IS_ERROR'
+const SET_IS_CRUSER = 'SET_IS_CRUSER'
 
 let initialState = {
     _id: "",
@@ -18,9 +19,10 @@ let initialState = {
     verified: null,
     rememberMe: false,
     error: null,
-    isError:false,
+    isError: false,
     isAuth: false,
-    isLoading: false
+    isLoading: false,
+    isCreatedUser: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -50,6 +52,11 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 isError: action.payload
             }
+        case SET_IS_CRUSER:
+            return {
+                ...state,
+                isCreatedUser: action.payload
+            }
         default:
             return state;
     }
@@ -63,6 +70,7 @@ export const setAuth = (isAuth) => ({type: SET_AUTH, payload: isAuth})
 export const setLoading = (load) => ({type: SET_LOADING, payload: load})
 export const setError = (error) => ({type: SET_ERROR, payload: error})
 export const setIsError = (bool) => ({type: SET_IS_ERROR, payload: bool})
+export const setIsCreatedUser = (isCreate) => ({type: SET_IS_CRUSER, payload: isCreate})
 
 export const loginThunk = (email, password, rememberMe) => async (dispatch) => {
     try {
@@ -77,4 +85,33 @@ export const loginThunk = (email, password, rememberMe) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 
+}
+
+export const logoutThunk = () => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let logoutData = await authAPI.logout()
+        dispatch(setAuth(false))
+    } catch (e) {
+        dispatch(setError(e.response.data.error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+
+}
+
+export const registerThunk = (email, password) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let registerData = await authAPI.register(email, password)
+        console.log(registerData)
+        dispatch(setIsCreatedUser(true))
+    } catch (e) {
+        console.log(e)
+        dispatch(setError(e.response.data.error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
 }

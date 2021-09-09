@@ -33,14 +33,15 @@ const Login = () => {
             :
             <div className='login'>
                 <h2>Sign In</h2>
-                <form name='login' action="">
+                <form name='login' action="" onSubmit={loginSubmit}>
                     <MyInput name='email' type='text' placeholder='Email'/>
                     <MyInput name='password' type='password' placeholder='Password'/>
                     <MyInput name='rememberMe' type='checkBox'/>
-                    <MyButton onClick={loginSubmit}>Login</MyButton>
+                    <MyButton disable={isLoading}>Login</MyButton>
                 </form>
 
             </div>
+
     );
 };
 
