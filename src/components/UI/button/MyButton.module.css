@@ -1,9 +1,9 @@
 .myButton {
     padding: 5px 15px;
     color: blueviolet;
-    font-size: 14px;
+    font-size: 18px;
     background: transparent;
-    border: 1px solid blueviolet;
+    border: 2px solid blueviolet;
     cursor: pointer;
 }
 

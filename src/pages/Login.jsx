@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginThunk, setLoginInfo} from "../redux/auth-reducer";
 import {authAPI} from "../api/api";
 import Loader from "../components/UI/Loader/Loader";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -36,9 +36,19 @@ const Login = () => {
                 <form name='login' action="" onSubmit={loginSubmit}>
                     <MyInput name='email' type='text' placeholder='Email'/>
                     <MyInput name='password' type='password' placeholder='Password'/>
-                    <MyInput name='rememberMe' type='checkBox'/>
+                    <div className='rememberMe'>
+                        <h3>Remember Me</h3>
+                        <MyInput name='rememberMe' type='checkBox' placeholder='RememberMe'/>
+                    </div>
+                    <div className="forgot">
+                        <Link to='/recovery'>Forgot Password</Link>
+                    </div>
                     <MyButton disable={isLoading}>Login</MyButton>
                 </form>
+                <div className='notAccount'>
+                    <h3>Don't have an account?</h3>
+                    <Link to='/registration'>Sign Up</Link>
+                </div>
 
             </div>
 

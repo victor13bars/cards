@@ -6,9 +6,7 @@
     align-items: center;
     justify-content: center;
 }
-h2{
-    color:blueviolet;
-}
+
 .loader {
     margin-top: 30px;
     width: 100px;
