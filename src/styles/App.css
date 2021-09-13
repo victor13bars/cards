@@ -72,3 +72,30 @@ form {
     margin-top: 20px;
     text-align: center;
 }
+
+.pack {
+    display: flex;
+    padding: 15px;
+    border: 2px solid blueviolet;
+    margin: 15px
+}
+
+.pack_content {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+.pack_el{
+
+    margin-left: 50px;
+}
+
+.pack_btns{
+    width: 20vw;
+    display: flex;
+    justify-content: space-around;
+    margin-left: 50px;
+}
+.btn_del{
+    color: red;
+}
