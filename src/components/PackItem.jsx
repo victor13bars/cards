@@ -10,7 +10,7 @@ const PackItem = ({pack}) => {
                 <div>{pack.name}</div>
                 <div className='pack_el'>{pack.cardsCount}</div>
                 <div className='pack_el'>{pack.updated}</div>
-                <div className='pack_el'>{pack.createdBy}</div>
+                <div className='pack_el'>{pack.user_name}</div>
                 <div className="pack_btns">
                     <MyButton className='btn_del'>Delete</MyButton>
                     <MyButton>Edit</MyButton>

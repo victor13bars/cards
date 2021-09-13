@@ -1,4 +1,5 @@
 import axios from "axios";
+import {logoutThunk} from "../redux/auth-reducer";
 
 export const instance = axios.create({
     withCredentials: true,
@@ -23,6 +24,12 @@ export const authAPI = {
             email,
             password
         })
+            .then(res => res.data)
+    }
+}
+export const packsAPI = {
+    getCardsPack() {
+        return instance.get(`cards/pack`)
             .then(res => res.data)
     }
 }
