@@ -3,22 +3,20 @@ import "../styles/App.css"
 import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
 
-const TableData = ({pack}) => {
+const TableData = ({dataArray,columnName}) => {
 
     return (
         <div>
             <Table striped bordered hover>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Cards</th>
-                    <th>LastUpdated</th>
-                    <th>Created By</th>
-                    <th>Actions</th>
+                    {columnName.map(el=>
+                        <th key={el.id}>{el.columnName}</th>
+                    )}
                 </tr>
                 </thead>
                 <tbody>
-                {pack.map(el=>
+                {dataArray.map(el=>
                     <tr key={el._id}>
                         <td>{el.name}</td>
                         <td>{el.cardsCount}</td>

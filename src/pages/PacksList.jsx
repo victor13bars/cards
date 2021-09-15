@@ -6,18 +6,27 @@ import {getPacksThunk} from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
 import Table from "../components/TableData";
 import TableData from "../components/TableData";
-
+import SearchForm from "../components/SearchForm";
 
 const PacksList = () => {
+    const columnNameTable = [
+        {id: 1, columnName: 'Pack name'},
+        {id: 2, columnName: 'Cards'},
+        {id: 3, columnName: "LastUpdated"},
+        {id: 4, columnName: "Created By"},
+        {id: 5, columnName: "Actions"}
+    ]
     const packs = useSelector(state => state.packs.cardPacks)
     console.log(packs)
     const dispatch = useDispatch()
-    const [searchValue, setSearchValue] = useState("")
 
-    const btnSearch = () => {
+    const getSearchPacks = (searchValue) => {
         dispatch(getPacksThunk(searchValue))
-        setSearchValue("")
     }
+    // const btnSearch = () => {
+    //     dispatch(getPacksThunk(searchValue))
+    //     setSearchValue("")
+    // }
     useEffect(() => {
         dispatch(getPacksThunk())
     }, [])
@@ -30,14 +39,10 @@ const PacksList = () => {
                 <MyButton>All</MyButton>
             </div>
             <div className='searchAndBtn'>
-                <div className='search'>
-                    <MyInput value={searchValue} placeholder='Search name'
-                             onChange={(e) => setSearchValue(e.target.value)}/>
-                    <MyButton onClick={btnSearch}>Search</MyButton>
-                </div>
+                <SearchForm getSearchData={getSearchPacks}/>
                 <MyButton>Add new pack</MyButton>
             </div>
-            <TableData pack={packs}/>
+            <TableData columnName={columnNameTable} dataArray={packs}/>
         </div>
     );
 };

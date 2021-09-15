@@ -22,6 +22,7 @@ const Navbar = () => {
                 <Link to='/recovery'>PasswordRecovery</Link>
                 <Link to='/newPassword'>NewPassword</Link>
                 <Link to='/packsList'>PacksList</Link>
+                <Link to='/cardsList'>CardsList</Link>
                 <Link to='/error'>404</Link>
             </div>
             {
