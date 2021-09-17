@@ -28,10 +28,11 @@ export const authAPI = {
     }
 }
 export const packsAPI = {
-    getCardsPack(packName='') {
+    getCardsPack(packName='', sortPacks='0updated') {
         return instance.get(`cards/pack`,{
             params:{
-                packName
+                packName,
+                sortPacks
             }
         })
             .then(res => res.data)

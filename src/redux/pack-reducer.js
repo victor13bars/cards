@@ -34,10 +34,10 @@ export const packReducer = (state = initialState, action) => {
 
 export const setPacks = (packs) => ({type: SET_PACKS, payload: packs})
 
-export const getPacksThunk = (searchValue) => async (dispatch) => {
+export const getPacksThunk = (searchValue, sortPacks) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
-       let packsData = await packsAPI.getCardsPack(searchValue)
+        let packsData = await packsAPI.getCardsPack(searchValue, sortPacks)
         dispatch(setPacks(packsData))
     } catch (e) {
         console.log(e.response)

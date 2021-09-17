@@ -116,6 +116,24 @@ form {
     justify-content: space-around;
 }
 
-.btn_del {
-    color: red;
+
+.table_sort_btn_active {
+    width: 50px;
+    height: 25px;
+    color: green;
+    border: 1px solid green;
+    font-weight: normal;
+    background: transparent;
+    margin-left: 5px;
 }
+
+.table_sort_btn_passive {
+    width: 50px;
+    height: 25px;
+    color: palevioletred;
+    border: 1px solid palevioletred;
+    font-weight: normal;
+    background: transparent;
+    margin-left: 5px;
+}
+

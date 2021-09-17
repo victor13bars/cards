@@ -7,26 +7,28 @@ import MyInput from "../components/UI/input/MyInput";
 import Table from "../components/TableData";
 import TableData from "../components/TableData";
 import SearchForm from "../components/SearchForm";
+import MyModal from "../components/UI/MyModal/MyModal";
 
 const PacksList = () => {
     const columnNameTable = [
         {id: 1, columnName: 'Pack name'},
         {id: 2, columnName: 'Cards'},
-        {id: 3, columnName: "LastUpdated"},
+        {id: 3, columnName: "Last updated"},
         {id: 4, columnName: "Created By"},
         {id: 5, columnName: "Actions"}
     ]
     const packs = useSelector(state => state.packs.cardPacks)
     console.log(packs)
     const dispatch = useDispatch()
+    const [modal, setModal] = useState(false)
 
     const getSearchPacks = (searchValue) => {
         dispatch(getPacksThunk(searchValue))
     }
-    // const btnSearch = () => {
-    //     dispatch(getPacksThunk(searchValue))
-    //     setSearchValue("")
-    // }
+    const addNewPack = () => {
+        setModal(true)
+    }
+
     useEffect(() => {
         dispatch(getPacksThunk())
     }, [])
@@ -40,7 +42,8 @@ const PacksList = () => {
             </div>
             <div className='searchAndBtn'>
                 <SearchForm getSearchData={getSearchPacks}/>
-                <MyButton>Add new pack</MyButton>
+                <MyButton onClick={addNewPack}>Add new pack</MyButton>
+                <MyModal visible={modal} setVisible={setModal}>123</MyModal>
             </div>
             <TableData columnName={columnNameTable} dataArray={packs}/>
         </div>
