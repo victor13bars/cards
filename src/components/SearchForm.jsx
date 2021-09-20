@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 
 const SearchForm = ({getSearchData}) => {
     const [searchValue, setSearchValue] = useState("")
+    console.log(searchValue)
     const dispatch = useDispatch()
     const btnSearch = () => {
         getSearchData(searchValue)

@@ -48,3 +48,18 @@ export const getPacksThunk = (searchValue, sortPacks) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 }
+export const createPackThunk = (packName) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let newCardsPack = await packsAPI.createCardsPack({name: packName})
+        console.log(newCardsPack)
+        dispatch(getPacksThunk())
+    } catch (e) {
+        console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}

@@ -91,12 +91,14 @@ form {
 .searchAndBtn {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .search {
     width: 50vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .search button {
@@ -135,5 +137,11 @@ form {
     font-weight: normal;
     background: transparent;
     margin-left: 5px;
+}
+
+.addNewPackModalBtn{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 

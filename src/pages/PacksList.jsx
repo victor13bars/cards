@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MyButton from "../components/UI/button/MyButton";
 import '../styles/App.css'
 import {useDispatch, useSelector} from "react-redux";
-import {getPacksThunk} from "../redux/pack-reducer";
+import {createPackThunk, getPacksThunk} from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
 import Table from "../components/TableData";
 import TableData from "../components/TableData";
@@ -19,14 +19,23 @@ const PacksList = () => {
     ]
     const packs = useSelector(state => state.packs.cardPacks)
     console.log(packs)
+
     const dispatch = useDispatch()
+    const [inputModal, setInputModal] = useState('')
+    console.log(inputModal)
     const [modal, setModal] = useState(false)
 
     const getSearchPacks = (searchValue) => {
         dispatch(getPacksThunk(searchValue))
     }
-    const addNewPack = () => {
+    const addNewPackOpenModal = () => {
         setModal(true)
+    }
+    const addNewPack = () => {
+        dispatch(createPackThunk(inputModal))
+        setModal(false)
+        setInputModal('')
+        // dispatch(getPacksThunk())
     }
 
     useEffect(() => {
@@ -42,8 +51,16 @@ const PacksList = () => {
             </div>
             <div className='searchAndBtn'>
                 <SearchForm getSearchData={getSearchPacks}/>
-                <MyButton onClick={addNewPack}>Add new pack</MyButton>
-                <MyModal visible={modal} setVisible={setModal}>123</MyModal>
+                <MyButton onClick={addNewPackOpenModal}>Add new pack</MyButton>
+                <MyModal visible={modal} setVisible={setModal}>
+                    <h3>Add new pack</h3>
+                    <MyInput value={inputModal} placeholder='Name pack'
+                             onChange={(e) => setInputModal(e.target.value)}/>
+                    <div className='addNewPackModalBtn'>
+                        <MyButton onClick={() => setModal(false)}>Cancel</MyButton>
+                        <MyButton onClick={addNewPack}>Save</MyButton>
+                    </div>
+                </MyModal>
             </div>
             <TableData columnName={columnNameTable} dataArray={packs}/>
         </div>

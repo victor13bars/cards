@@ -28,13 +28,20 @@ export const authAPI = {
     }
 }
 export const packsAPI = {
-    getCardsPack(packName='', sortPacks='0updated') {
-        return instance.get(`cards/pack`,{
-            params:{
+    getCardsPack(packName = '', sortPacks = '0updated') {
+        return instance.get(`cards/pack`, {
+            params: {
                 packName,
                 sortPacks
             }
         })
+            .then(res => res.data)
+    },
+    createCardsPack(addPackPayload) {
+        return instance.post(`cards/pack`, {
+            cardsPack: addPackPayload
+        })
+
             .then(res => res.data)
     }
 }
