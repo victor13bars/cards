@@ -117,7 +117,7 @@ form {
     display: flex;
     justify-content: space-around;
 }
-
+/*tableActions_btn_allPacks*/
 
 .table_sort_btn_active {
     width: 50px;
@@ -145,3 +145,15 @@ form {
     justify-content: space-between;
 }
 
+.PackListBtn_active {
+    padding: 2px 12px;
+    color: green;
+    border: 1px solid green;
+    background: transparent;
+}
+.PackListBtn_passive {
+    padding: 2px 12px;
+    color: palevioletred;
+    border: 1px solid palevioletred;
+    background: transparent;
+}

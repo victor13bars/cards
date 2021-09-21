@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MyButton from "../components/UI/button/MyButton";
 import '../styles/App.css'
 import {useDispatch, useSelector} from "react-redux";
-import {createPackThunk, getPacksThunk} from "../redux/pack-reducer";
+import {createPackThunk, getPacksThunk, setIsMyPacks} from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
 import Table from "../components/TableData";
 import TableData from "../components/TableData";
@@ -18,16 +18,22 @@ const PacksList = () => {
         {id: 5, columnName: "Actions"}
     ]
     const packs = useSelector(state => state.packs.cardPacks)
-    console.log(packs)
-
+    const userId = useSelector(state => state.auth._id)
+    const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const dispatch = useDispatch()
     const [inputModal, setInputModal] = useState('')
-    console.log(inputModal)
     const [modal, setModal] = useState(false)
+    // const [myPacks, setMyPacks] = useState(false)
 
-    const getSearchPacks = (searchValue) => {
-        dispatch(getPacksThunk(searchValue))
+    const getMyPack = () => {
+        dispatch(getPacksThunk(userId))
+        dispatch(setIsMyPacks(true))
     }
+    const getAllPack = () => {
+        dispatch(getPacksThunk())
+        dispatch(setIsMyPacks(false))
+    }
+
     const addNewPackOpenModal = () => {
         setModal(true)
     }
@@ -46,11 +52,13 @@ const PacksList = () => {
         <div className='packList'>
             <div className='packListHeader'>
                 <h2>Packs List</h2>
-                <MyButton>My</MyButton>
-                <MyButton>All</MyButton>
+                <MyButton onClick={getMyPack}
+                          className={isMyPacks ? "PackListBtn_active" : "PackListBtn_passive"}>My</MyButton>
+                <MyButton onClick={getAllPack}
+                          className={isMyPacks ? "PackListBtn_passive" : "PackListBtn_active"}>All</MyButton>
             </div>
             <div className='searchAndBtn'>
-                <SearchForm getSearchData={getSearchPacks}/>
+                <SearchForm/>
                 <MyButton onClick={addNewPackOpenModal}>Add new pack</MyButton>
                 <MyModal visible={modal} setVisible={setModal}>
                     <h3>Add new pack</h3>

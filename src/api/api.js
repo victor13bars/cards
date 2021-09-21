@@ -28,11 +28,12 @@ export const authAPI = {
     }
 }
 export const packsAPI = {
-    getCardsPack(packName = '', sortPacks = '0updated') {
+    getCardsPack(packName, sortPacks, user_id) {
         return instance.get(`cards/pack`, {
             params: {
                 packName,
-                sortPacks
+                sortPacks,
+                user_id
             }
         })
             .then(res => res.data)
@@ -42,6 +43,10 @@ export const packsAPI = {
             cardsPack: addPackPayload
         })
 
+            .then(res => res.data)
+    },
+    deleteCardsPack(packId) {
+        return instance.delete(`cards/pack?id=${packId}`)
             .then(res => res.data)
     }
 }
