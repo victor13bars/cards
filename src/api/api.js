@@ -48,5 +48,12 @@ export const packsAPI = {
     deleteCardsPack(packId) {
         return instance.delete(`cards/pack?id=${packId}`)
             .then(res => res.data)
+    },
+    editCardsPack(editPackPayload) {
+        return instance.put(`cards/pack`, {
+            cardsPack: editPackPayload
+        })
+            .then(res => res.data)
     }
+
 }

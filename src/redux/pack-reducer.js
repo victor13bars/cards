@@ -105,3 +105,19 @@ export const deletePackThunk = (packId) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 }
+
+export const editPackThunk = (packId, newPackName) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let editCardsPack = await packsAPI.editCardsPack({_id: packId, name: newPackName})
+        console.log(editCardsPack)
+        dispatch(getPacksThunk())
+    } catch (e) {
+        console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}

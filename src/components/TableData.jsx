@@ -4,8 +4,9 @@ import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
 import "../styles/App.css"
 import {useDispatch, useSelector} from "react-redux";
-import {deletePackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
+import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
+import MyInput from "./UI/input/MyInput";
 
 const TableData = ({dataArray, columnName}) => {
     const dispatch = useDispatch()
@@ -14,10 +15,21 @@ const TableData = ({dataArray, columnName}) => {
     const sortPacks = useSelector(state => state.packs.sortPacks)
     const [delModal, setDelModal] = useState(false)
     const [editModal, setEditModal] = useState(false)
-
+    const [inputEditModal, setInputEditModal] = useState("")
+    console.log(inputEditModal)
+    const test = (id) => {
+        setEditModal(true)
+        console.log(id)
+    }
     const delPack = (id) => {
         dispatch(deletePackThunk(id))
         setDelModal(false)
+    }
+    const editPack = (id) => {
+        dispatch(editPackThunk(id, inputEditModal))
+        setEditModal(false)
+        setInputEditModal('')
+        console.log("IDDDDDDID", id)
     }
     const SortUp = () => {
         if (isMyPacks) {
@@ -40,10 +52,6 @@ const TableData = ({dataArray, columnName}) => {
     }
     return (
         <div>
-
-            <MyModal>
-
-            </MyModal>
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -87,8 +95,17 @@ const TableData = ({dataArray, columnName}) => {
                                             <MyButton onClick={() => delPack(el._id)}>Delete</MyButton>
                                         </div>
                                     </MyModal>
+                                    <MyModal visible={editModal} setVisible={setEditModal}>
+                                        <h3>Edit Pack</h3>
+                                        <MyInput value={inputEditModal} placeholder='New pack name'
+                                                 onChange={(e) => setInputEditModal(e.target.value)}/>
+                                        <div className='addNewPackModalBtn'>
+                                            <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
+                                            <MyButton onClick={() => editPack(el._id)}>Save</MyButton>
+                                        </div>
+                                    </MyModal>
                                     <MyButton onClick={() => setDelModal(true)}>Delete</MyButton>
-                                    <MyButton>Edit</MyButton>
+                                    <MyButton onClick={() => test(el._id)}>Edit</MyButton>
                                     <MyButton>Learn</MyButton>
                                 </div>
                                 :

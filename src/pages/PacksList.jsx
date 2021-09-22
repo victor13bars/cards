@@ -18,6 +18,7 @@ const PacksList = () => {
         {id: 5, columnName: "Actions"}
     ]
     const packs = useSelector(state => state.packs.cardPacks)
+    console.log("PACKS",packs)
     const userId = useSelector(state => state.auth._id)
     const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const dispatch = useDispatch()
@@ -41,7 +42,6 @@ const PacksList = () => {
         dispatch(createPackThunk(inputModal))
         setModal(false)
         setInputModal('')
-        // dispatch(getPacksThunk())
     }
 
     useEffect(() => {
