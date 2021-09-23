@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
+import {getPageCount} from "./utils/pages";
 
 const TableData = ({dataArray, columnName}) => {
     const dispatch = useDispatch()
@@ -16,20 +17,30 @@ const TableData = ({dataArray, columnName}) => {
     const [delModal, setDelModal] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [inputEditModal, setInputEditModal] = useState("")
-    console.log(inputEditModal)
-    const test = (id) => {
-        setEditModal(true)
-        console.log(id)
+    const [saveId, setSaveId] = useState(0)
+    const cardPacksTotalCount = useSelector(state => state.packs.cardPacksTotalCount)
+    const page = useSelector(state => state.packs.page)
+    const pageCount = useSelector(state => state.packs.pageCount)
+    const [totalPages, setTotalPages] = useState(getPageCount(cardPacksTotalCount, pageCount))
+    // setTotalPages(getPageCount(cardPacksTotalCount, pageCount))
+
+    console.log("TOtal", totalPages)
+    const delOnClickBtn = (id) => {
+        setDelModal(true)
+        setSaveId(id)
     }
-    const delPack = (id) => {
-        dispatch(deletePackThunk(id))
+    const delPack = () => {
+        dispatch(deletePackThunk(saveId))
         setDelModal(false)
     }
-    const editPack = (id) => {
-        dispatch(editPackThunk(id, inputEditModal))
+    const editOnClickBtn = (id) => {
+        setEditModal(true)
+        setSaveId(id)
+    }
+    const editPack = () => {
+        dispatch(editPackThunk(saveId, inputEditModal))
         setEditModal(false)
         setInputEditModal('')
-        console.log("IDDDDDDID", id)
     }
     const SortUp = () => {
         if (isMyPacks) {
@@ -85,6 +96,7 @@ const TableData = ({dataArray, columnName}) => {
                         <td>
                             {el.user_id === userId ?
                                 <div className='table_actions_btn'>
+
                                     <MyModal visible={delModal} setVisible={setDelModal}>
                                         <h3>Delete Pack</h3>
                                         <p>Do you really want to remove Pack?<br/>
@@ -92,20 +104,22 @@ const TableData = ({dataArray, columnName}) => {
                                         </p>
                                         <div className='addNewPackModalBtn'>
                                             <MyButton onClick={() => setDelModal(false)}>Cancel</MyButton>
-                                            <MyButton onClick={() => delPack(el._id)}>Delete</MyButton>
+                                            <MyButton onClick={delPack}>Delete</MyButton>
                                         </div>
                                     </MyModal>
-                                    <MyModal visible={editModal} setVisible={setEditModal}>
+
+                                    <MyModal visible={editModal} setVisible={setEditModal} id={el._id}
+                                             callback={editPack}>
                                         <h3>Edit Pack</h3>
                                         <MyInput value={inputEditModal} placeholder='New pack name'
                                                  onChange={(e) => setInputEditModal(e.target.value)}/>
                                         <div className='addNewPackModalBtn'>
                                             <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
-                                            <MyButton onClick={() => editPack(el._id)}>Save</MyButton>
+                                            <MyButton onClick={editPack}>Save</MyButton>
                                         </div>
                                     </MyModal>
-                                    <MyButton onClick={() => setDelModal(true)}>Delete</MyButton>
-                                    <MyButton onClick={() => test(el._id)}>Edit</MyButton>
+                                    <MyButton onClick={() => delOnClickBtn(el._id)}>Delete</MyButton>
+                                    <MyButton onClick={() => editOnClickBtn(el._id)}>Edit</MyButton>
                                     <MyButton>Learn</MyButton>
                                 </div>
                                 :

@@ -16,10 +16,11 @@ let initialState = {
             updated: null
         }
     ],
-    cardPacksTotalCount: null,
+    cardPacksTotalCount: 0,
     maxCardsCount: null,
     minCardsCount: null,
-    pageCount: null,
+    page:1,
+    pageCount: 5,
     searchValue: '',
     sortPacks: '0updated',
     isMyPacks: false
