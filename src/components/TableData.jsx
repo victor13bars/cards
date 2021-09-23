@@ -7,7 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
-import {getPageCount} from "./utils/pages";
+import {getPageCount, getPagesArray} from "./utils/pages";
+import Paginator from "./UI/Paginator/Paginator";
 
 const TableData = ({dataArray, columnName}) => {
     const dispatch = useDispatch()
@@ -18,13 +19,7 @@ const TableData = ({dataArray, columnName}) => {
     const [editModal, setEditModal] = useState(false)
     const [inputEditModal, setInputEditModal] = useState("")
     const [saveId, setSaveId] = useState(0)
-    const cardPacksTotalCount = useSelector(state => state.packs.cardPacksTotalCount)
-    const page = useSelector(state => state.packs.page)
-    const pageCount = useSelector(state => state.packs.pageCount)
-    const [totalPages, setTotalPages] = useState(getPageCount(cardPacksTotalCount, pageCount))
-    // setTotalPages(getPageCount(cardPacksTotalCount, pageCount))
 
-    console.log("TOtal", totalPages)
     const delOnClickBtn = (id) => {
         setDelModal(true)
         setSaveId(id)
@@ -132,6 +127,7 @@ const TableData = ({dataArray, columnName}) => {
                 )}
                 </tbody>
             </Table>
+            <Paginator/>
         </div>
     );
 };

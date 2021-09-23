@@ -8,6 +8,7 @@ import Table from "../components/TableData";
 import TableData from "../components/TableData";
 import SearchForm from "../components/SearchForm";
 import MyModal from "../components/UI/MyModal/MyModal";
+import Paginator from "../components/UI/Paginator/Paginator";
 
 const PacksList = () => {
     const columnNameTable = [

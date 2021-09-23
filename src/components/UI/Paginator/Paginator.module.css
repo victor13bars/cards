@@ -1,0 +1,15 @@
+.page__wrapper {
+    margin-top: 30px;
+    display: flex;
+}
+
+.page {
+    margin-left: 2px;
+    padding: 10px;
+    border:1px solid blueviolet;
+    cursor: pointer;
+}
+.page__current{
+    border:2px solid red;
+    font-weight: bold;
+}
