@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MyButton from "../components/UI/button/MyButton";
 import '../styles/App.css'
 import {useDispatch, useSelector} from "react-redux";
-import {createPackThunk, getPacksThunk, setIsMyPacks} from "../redux/pack-reducer";
+import {createPackThunk, getPacksThunk, setIsMyPacks, setPage} from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
 import Table from "../components/TableData";
 import TableData from "../components/TableData";
@@ -28,10 +28,12 @@ const PacksList = () => {
     // const [myPacks, setMyPacks] = useState(false)
 
     const getMyPack = () => {
+        dispatch(setPage(1))
         dispatch(getPacksThunk(userId))
         dispatch(setIsMyPacks(true))
     }
     const getAllPack = () => {
+        dispatch(setPage(1))
         dispatch(getPacksThunk())
         dispatch(setIsMyPacks(false))
     }

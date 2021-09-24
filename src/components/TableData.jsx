@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
-import {getPageCount, getPagesArray} from "./utils/pages";
+import {getPageCount, getPagesArray} from "./utils/pagesCreator";
 import Paginator from "./UI/Paginator/Paginator";
 
 const TableData = ({dataArray, columnName}) => {

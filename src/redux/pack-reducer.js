@@ -5,6 +5,8 @@ const SET_PACKS = "SET_PACKS"
 const SET_SEARCH_VALUE = "SET_SEARCH_VALUE"
 const SET_TYPE_SORT = "SET_TYPE_SORT"
 const SET_IS_MYPACKS = "SET_IS_MYPACKS"
+const SET_PAGE = "SET_PAGE"
+const SET_PAGE_COUNT = "SET_PAGE_COUNT"
 
 let initialState = {
     cardPacks: [
@@ -19,7 +21,7 @@ let initialState = {
     cardPacksTotalCount: 0,
     maxCardsCount: null,
     minCardsCount: null,
-    page:1,
+    page: 1,
     pageCount: 5,
     searchValue: '',
     sortPacks: '0updated',
@@ -49,6 +51,16 @@ export const packReducer = (state = initialState, action) => {
                 ...state,
                 isMyPacks: action.payload
             }
+        case SET_PAGE:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case SET_PAGE_COUNT:
+            return {
+                ...state,
+                pageCount: action.payload
+            }
         default:
             return state;
     }
@@ -58,13 +70,15 @@ export const setPacks = (packs) => ({type: SET_PACKS, payload: packs})
 export const setSearchValue = (value) => ({type: SET_SEARCH_VALUE, payload: value})
 export const setTypeSort = (typeSort) => ({type: SET_TYPE_SORT, payload: typeSort})
 export const setIsMyPacks = (bool) => ({type: SET_IS_MYPACKS, payload: bool})
+export const setPage = (number) => ({type: SET_PAGE, payload: number})
+export const setPageCount = (number) => ({type: SET_PAGE_COUNT, payload: number})
 
 export const getPacksThunk = (userId = '') => async (dispatch, getState) => {
-    const {searchValue, sortPacks} = getState().packs
+    const {searchValue, sortPacks, page} = getState().packs
     console.log('EEEEEEEEEEEEEEE', getState().packs)
     try {
         dispatch(setLoading(true))
-        let packsData = await packsAPI.getCardsPack(searchValue, sortPacks, userId)
+        let packsData = await packsAPI.getCardsPack(searchValue, sortPacks, page, userId)
         dispatch(setPacks(packsData))
     } catch (e) {
         console.log(e.response)

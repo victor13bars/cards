@@ -1,10 +1,11 @@
 .page__wrapper {
     margin-top: 30px;
     display: flex;
+    justify-content: center;
 }
 
 .page {
-    margin-left: 2px;
+    margin-left: 10px;
     padding: 10px;
     border:1px solid blueviolet;
     cursor: pointer;
