@@ -28,12 +28,13 @@ export const authAPI = {
     }
 }
 export const packsAPI = {
-    getCardsPack(packName, sortPacks,page, user_id) {
+    getCardsPack(packName, sortPacks,page,pageCount, user_id) {
         return instance.get(`cards/pack`, {
             params: {
                 packName,
                 sortPacks,
                 page,
+                pageCount,
                 user_id
             }
         })

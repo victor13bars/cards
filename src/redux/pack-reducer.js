@@ -22,7 +22,7 @@ let initialState = {
     maxCardsCount: null,
     minCardsCount: null,
     page: 1,
-    pageCount: 5,
+    pageCount: 4,
     searchValue: '',
     sortPacks: '0updated',
     isMyPacks: false
@@ -74,11 +74,11 @@ export const setPage = (number) => ({type: SET_PAGE, payload: number})
 export const setPageCount = (number) => ({type: SET_PAGE_COUNT, payload: number})
 
 export const getPacksThunk = (userId = '') => async (dispatch, getState) => {
-    const {searchValue, sortPacks, page} = getState().packs
+    const {searchValue, sortPacks, page, pageCount} = getState().packs
     console.log('EEEEEEEEEEEEEEE', getState().packs)
     try {
         dispatch(setLoading(true))
-        let packsData = await packsAPI.getCardsPack(searchValue, sortPacks, page, userId)
+        let packsData = await packsAPI.getCardsPack(searchValue, sortPacks, page, pageCount, userId)
         dispatch(setPacks(packsData))
     } catch (e) {
         console.log(e.response)
@@ -89,12 +89,12 @@ export const getPacksThunk = (userId = '') => async (dispatch, getState) => {
         dispatch(setLoading(false))
     }
 }
-export const createPackThunk = (packName) => async (dispatch) => {
+export const createPackThunk = (packName, userId) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         let newCardsPack = await packsAPI.createCardsPack({name: packName})
         console.log(newCardsPack)
-        dispatch(getPacksThunk())
+        dispatch(getPacksThunk(userId))
     } catch (e) {
         console.log(e.response)
         let error = e.response ? e.response.data.error : "Server Error"

@@ -2,28 +2,12 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {createPages, getPageCount, getPagesArray} from "../../utils/pagesCreator";
 import classes from "./Paginator.module.css"
-import {getPacksThunk, setPage} from "../../../redux/pack-reducer";
+import {getPacksThunk, setPage, setPageCount} from "../../../redux/pack-reducer";
+import MySelect from "../MySelect/MySelect";
 
-const Paginator = () => {
-    const dispatch = useDispatch()
-    const cardPacksTotalCount = useSelector(state => state.packs.cardPacksTotalCount)
-    const page = useSelector(state => state.packs.page)
-    const pageCount = useSelector(state => state.packs.pageCount)
-    const isMyPacks = useSelector(state => state.packs.isMyPacks)
-    const userId = useSelector(state => state.auth._id)
-    const totalPages = Math.ceil(cardPacksTotalCount/pageCount)
-    let pagesArray = []
-    createPages(pagesArray,totalPages,page)
-
-    const setCurPage = (page) => {
-        if (isMyPacks) {
-            dispatch(setPage(page))
-            dispatch(getPacksThunk(userId))
-        } else {
-            dispatch(setPage(page))
-            dispatch(getPacksThunk())
-        }
-    }
+const Paginator = ({pagesArray,page,cardPacksTotalCount,pageCount,onChangeCurPage,onChangeCurPageCount}) => {
+    const totalPages = Math.ceil(cardPacksTotalCount / pageCount)
+    createPages(pagesArray, totalPages, page)
 
     console.log("TOtal", totalPages)
     return (
@@ -32,10 +16,22 @@ const Paginator = () => {
                 <span
                     key={index}
                     className={page === p ? classes.page + " " + classes.page__current : classes.page}
-                    onClick={() => setCurPage(p)}>
+                    onClick={() => onChangeCurPage(p)}>
                     {p}
                 </span>
             )}
+            <div className={classes.selectContainer}>
+                <MySelect
+                    value={pageCount}
+                    onChange={onChangeCurPageCount}
+                    defaultValue={pageCount}
+                    options={[
+                        {value: 5},
+                        {value: 10},
+                        {value: 15}
+                    ]}
+                />
+            </div>
         </div>
     );
 };

@@ -127,7 +127,6 @@ const TableData = ({dataArray, columnName}) => {
                 )}
                 </tbody>
             </Table>
-            <Paginator/>
         </div>
     );
 };

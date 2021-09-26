@@ -17,13 +17,13 @@ const SearchForm = () => {
             dispatch(setSearchValue(searchLocValue))
             dispatch(getPacksThunk(userId))
             setSearchLocValue("")
-            dispatch(setSearchValue(""))
+            // dispatch(setSearchValue(""))
         } else {
             dispatch(setPage(1))
             dispatch(setSearchValue(searchLocValue))
             dispatch(getPacksThunk())
             setSearchLocValue("")
-            dispatch(setSearchValue(""))
+            // dispatch(setSearchValue(""))
         }
     }
     return (
