@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useParams} from 'react-router-dom'
 import SearchForm from "../components/SearchForm";
 import TableForPacks from "../components/TableForPacks";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,10 +12,11 @@ import MyInput from "../components/UI/input/MyInput";
 
 const CardsList = () => {
     const dispatch = useDispatch();
+    const {packId} = useParams();
 
     useEffect(() => {
-        dispatch(getCardsThunk("6152c0f86aa2451b018d7c8a"))
-    }, [])
+        dispatch(getCardsThunk(packId))
+    }, [packId])
 
     return (
         <div className='packList'>
@@ -23,7 +25,7 @@ const CardsList = () => {
             </div>
             <div className='searchAndBtn'>
                 <SearchForm/>
-                <MyButton >Add new card</MyButton>
+                <MyButton>Add new card</MyButton>
                 {/*<MyModal visible={modal} setVisible={setModal}>*/}
                 {/*    <h3>Add new pack</h3>*/}
                 {/*    <MyInput value={inputModal} placeholder='Name pack'*/}

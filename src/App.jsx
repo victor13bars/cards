@@ -23,7 +23,7 @@ function App() {
                 <Route exact path='/recovery' component={PasswordRecovery}/>
                 <Route exact path='/newPassword' component={PasswordNew}/>
                 <Route exact path='/packsList' component={PacksList}/>
-                <Route exact path='/cardsList' component={CardsList}/>
+                <Route exact path='/cardsList/:packId' component={CardsList}/>
                 <Route exact path='/error' component={Error}/>
                 <Redirect to='/'/>
             </Switch>

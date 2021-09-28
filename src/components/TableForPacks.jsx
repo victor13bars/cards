@@ -9,6 +9,7 @@ import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
 import {getPageCount, getPagesArray} from "./utils/pagesCreator";
 import Paginator from "./UI/Paginator/Paginator";
+import {NavLink} from "react-router-dom";
 
 const TableForPacks = () => {
     const columnNameTable = [
@@ -92,7 +93,7 @@ const TableForPacks = () => {
                 <tbody>
                 {packs.map(el =>
                     <tr key={el._id}>
-                        <td>{el.name}</td>
+                        <td><NavLink to={`/cardsList/${el._id}`}>{el.name}</NavLink></td>
                         <td>{el.cardsCount}</td>
                         <td>{el.updated}</td>
                         <td>{el.user_name}</td>
