@@ -74,5 +74,14 @@ export const cardAPI = {
             card: addCardPayload
         })
             .then(res => res.data)
+    },
+    deleteCard(id) {
+        return instance.delete(`cards/card?id=${id}`)
+            .then(res => res.data)
+    },
+    editCard(editCardPayload) {
+        return instance.put(`card/card`, {
+            card: editCardPayload
+        })
     }
 }

@@ -66,10 +66,10 @@ export const getCardsThunk = (cardsPackId) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 }
-export const createCardThunk = (answer,question,cardsPack_id) => async (dispatch) => {
+export const createCardThunk = (answer, question, cardsPack_id) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
-        let newCard = await cardAPI.createCard({ answer: answer, question: question,cardsPack_id: cardsPack_id})
+        let newCard = await cardAPI.createCard({answer: answer, question: question, cardsPack_id: cardsPack_id})
         dispatch(getCardsThunk(cardsPack_id))
     } catch (e) {
         console.log(e.response)
@@ -80,35 +80,33 @@ export const createCardThunk = (answer,question,cardsPack_id) => async (dispatch
         dispatch(setLoading(false))
     }
 }
-//
-// export const deletePackThunk = (packId) => async (dispatch) => {
-//     try {
-//         dispatch(setLoading(true))
-//         let deletePack = await packsAPI.deleteCardsPack(packId)
-//         console.log(deletePack)
-//         dispatch(getPacksThunk())
-//     } catch (e) {
-//         console.log(e.response)
-//         let error = e.response ? e.response.data.error : "Server Error"
-//         dispatch(setError(error))
-//         dispatch(setIsError(true))
-//     } finally {
-//         dispatch(setLoading(false))
-//     }
-// }
-//
-// export const editPackThunk = (packId, newPackName) => async (dispatch) => {
-//     try {
-//         dispatch(setLoading(true))
-//         let editCardsPack = await packsAPI.editCardsPack({_id: packId, name: newPackName})
-//         console.log(editCardsPack)
-//         dispatch(getPacksThunk())
-//     } catch (e) {
-//         console.log(e.response)
-//         let error = e.response ? e.response.data.error : "Server Error"
-//         dispatch(setError(error))
-//         dispatch(setIsError(true))
-//     } finally {
-//         dispatch(setLoading(false))
-//     }
-// }
+
+export const deleteCardThunk = (cardId, packId) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let deleteCard = await cardAPI.deleteCard(cardId)
+        dispatch(getCardsThunk(packId))
+    } catch (e) {
+        console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
+
+export const editCardThunk = (packId,id,question,answer) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let editCards = await cardAPI.editCard({_id: id, question: question,answer:answer})
+        dispatch(getCardsThunk(packId))
+    } catch (e) {
+        console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
