@@ -28,7 +28,7 @@ export const authAPI = {
     }
 }
 export const packsAPI = {
-    getCardsPack(packName, sortPacks,page,pageCount, user_id) {
+    getCardsPack(packName, sortPacks, page, pageCount, user_id) {
         return instance.get(`cards/pack`, {
             params: {
                 packName,
@@ -58,4 +58,15 @@ export const packsAPI = {
             .then(res => res.data)
     }
 
+}
+
+export const cardAPI = {
+    getCards(cardsPack_id) {
+        return instance.get(`cards/card`, {
+            params: {
+                cardsPack_id
+            }
+        })
+            .then(res => res.data)
+    }
 }

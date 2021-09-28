@@ -10,7 +10,15 @@ import MyInput from "./UI/input/MyInput";
 import {getPageCount, getPagesArray} from "./utils/pagesCreator";
 import Paginator from "./UI/Paginator/Paginator";
 
-const TableData = ({dataArray, columnName}) => {
+const TableForPacks = () => {
+    const columnNameTable = [
+        {id: 1, columnName: 'Pack name'},
+        {id: 2, columnName: 'Cards'},
+        {id: 3, columnName: "Last updated"},
+        {id: 4, columnName: "Created By"},
+        {id: 5, columnName: "Actions"}
+    ]
+    const packs = useSelector(state => state.packs.cardPacks)
     const dispatch = useDispatch()
     const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const userId = useSelector(state => state.auth._id)
@@ -61,7 +69,7 @@ const TableData = ({dataArray, columnName}) => {
             <Table striped bordered hover>
                 <thead>
                 <tr>
-                    {columnName.map(function (el) {
+                    {columnNameTable.map(function (el) {
                             if (el.columnName === "Last updated") {
 
                                 return <th key={el.id}>
@@ -82,7 +90,7 @@ const TableData = ({dataArray, columnName}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {dataArray.map(el =>
+                {packs.map(el =>
                     <tr key={el._id}>
                         <td>{el.name}</td>
                         <td>{el.cardsCount}</td>
@@ -131,4 +139,4 @@ const TableData = ({dataArray, columnName}) => {
     );
 };
 
-export default TableData;
+export default TableForPacks;

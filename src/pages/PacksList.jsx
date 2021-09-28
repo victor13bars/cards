@@ -4,21 +4,13 @@ import '../styles/App.css'
 import {useDispatch, useSelector} from "react-redux";
 import {createPackThunk, getPacksThunk, setIsMyPacks, setPage, setPageCount} from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
-import Table from "../components/TableData";
-import TableData from "../components/TableData";
+
+import TableForPacks from "../components/TableForPacks";
 import SearchForm from "../components/SearchForm";
 import MyModal from "../components/UI/MyModal/MyModal";
 import Paginator from "../components/UI/Paginator/Paginator";
 
 const PacksList = () => {
-    const columnNameTable = [
-        {id: 1, columnName: 'Pack name'},
-        {id: 2, columnName: 'Cards'},
-        {id: 3, columnName: "Last updated"},
-        {id: 4, columnName: "Created By"},
-        {id: 5, columnName: "Actions"}
-    ]
-    const packs = useSelector(state => state.packs.cardPacks)
     const userId = useSelector(state => state.auth._id)
     const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const pageCount = useSelector(state => state.packs.pageCount)
@@ -105,7 +97,7 @@ const PacksList = () => {
                     </div>
                 </MyModal>
             </div>
-            <TableData columnName={columnNameTable} dataArray={packs}/>
+            <TableForPacks />
             <Paginator
                 pagesArray={pagesArray}
                 page={page}
