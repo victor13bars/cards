@@ -2,13 +2,10 @@ import React, {useState} from 'react';
 import "../styles/App.css"
 import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
-import "../styles/App.css"
 import {useDispatch, useSelector} from "react-redux";
-import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
+import {deletePackThunk, editPackThunk} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
-import {getPageCount, getPagesArray} from "./utils/pagesCreator";
-import Paginator from "./UI/Paginator/Paginator";
 
 const TableForCards = () => {
     const columnNameTable = [
@@ -20,7 +17,7 @@ const TableForCards = () => {
     ]
     const cardsArray = useSelector(state => state.cards.cards)
     const dispatch = useDispatch()
-    const isMyPacks = useSelector(state => state.packs.isMyPacks)
+    // const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const userId = useSelector(state => state.auth._id)
     const sortPacks = useSelector(state => state.packs.sortPacks)
     const [delModal, setDelModal] = useState(false)
@@ -45,25 +42,25 @@ const TableForCards = () => {
         setEditModal(false)
         setInputEditModal('')
     }
-    const SortUp = () => {
-        if (isMyPacks) {
-            dispatch(setTypeSort("1updated"))
-            dispatch(getPacksThunk(userId))
-        } else {
-            dispatch(setTypeSort("1updated"))
-            dispatch(getPacksThunk())
-        }
-
-    }
-    const SortDown = () => {
-        if (isMyPacks) {
-            dispatch(setTypeSort("0updated"))
-            dispatch(getPacksThunk(userId))
-        } else {
-            dispatch(setTypeSort("0updated"))
-            dispatch(getPacksThunk())
-        }
-    }
+    // const SortUp = () => {
+    //     if (isMyPacks) {
+    //         dispatch(setTypeSort("1updated"))
+    //         dispatch(getPacksThunk(userId))
+    //     } else {
+    //         dispatch(setTypeSort("1updated"))
+    //         dispatch(getPacksThunk())
+    //     }
+    //
+    // }
+    // const SortDown = () => {
+    //     if (isMyPacks) {
+    //         dispatch(setTypeSort("0updated"))
+    //         dispatch(getPacksThunk(userId))
+    //     } else {
+    //         dispatch(setTypeSort("0updated"))
+    //         dispatch(getPacksThunk())
+    //     }
+    // }
     return (
         <div>
             <Table striped bordered hover>
@@ -74,14 +71,14 @@ const TableForCards = () => {
 
                                 return <th key={el.id}>
                                     {el.columnName}
-                                    <MyButton
-                                        className={sortPacks === "0updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}
-                                        onClick={SortUp}
-                                    >Up</MyButton>
-                                    <MyButton
-                                        className={sortPacks === "1updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}
-                                        onClick={SortDown}
-                                    >Down</MyButton>
+                                    {/*<MyButton*/}
+                                    {/*    className={sortPacks === "0updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}*/}
+                                    {/*    onClick={SortUp}*/}
+                                    {/*>Up</MyButton>*/}
+                                    {/*<MyButton*/}
+                                    {/*    className={sortPacks === "1updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}*/}
+                                    {/*    onClick={SortDown}*/}
+                                    {/*>Down</MyButton>*/}
                                 </th>
                             }
                             return <th key={el.id}>{el.columnName}</th>
@@ -123,11 +120,10 @@ const TableForCards = () => {
                                     </MyModal>
                                     <MyButton onClick={() => delOnClickBtn(el._id)}>Delete</MyButton>
                                     <MyButton onClick={() => editOnClickBtn(el._id)}>Edit</MyButton>
-                                    <MyButton>Learn</MyButton>
                                 </div>
                                 :
                                 <div className='table_actions_btn'>
-                                    <MyButton>Learn</MyButton>
+                                   <p>No actions because this is not your pack</p>
                                 </div>
                             }
                         </td>

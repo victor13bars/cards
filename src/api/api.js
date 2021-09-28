@@ -68,5 +68,11 @@ export const cardAPI = {
             }
         })
             .then(res => res.data)
+    },
+    createCard(addCardPayload) {
+        return instance.post(`cards/card`, {
+            card: addCardPayload
+        })
+            .then(res => res.data)
     }
 }

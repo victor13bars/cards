@@ -66,21 +66,20 @@ export const getCardsThunk = (cardsPackId) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 }
-// export const createPackThunk = (packName, userId) => async (dispatch) => {
-//     try {
-//         dispatch(setLoading(true))
-//         let newCardsPack = await packsAPI.createCardsPack({name: packName})
-//         console.log(newCardsPack)
-//         dispatch(getPacksThunk(userId))
-//     } catch (e) {
-//         console.log(e.response)
-//         let error = e.response ? e.response.data.error : "Server Error"
-//         dispatch(setError(error))
-//         dispatch(setIsError(true))
-//     } finally {
-//         dispatch(setLoading(false))
-//     }
-// }
+export const createCardThunk = (answer,question,cardsPack_id) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let newCard = await cardAPI.createCard({ answer: answer, question: question,cardsPack_id: cardsPack_id})
+        dispatch(getCardsThunk(cardsPack_id))
+    } catch (e) {
+        console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
 //
 // export const deletePackThunk = (packId) => async (dispatch) => {
 //     try {

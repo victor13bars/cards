@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom'
 import SearchForm from "../components/SearchForm";
 import TableForPacks from "../components/TableForPacks";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsThunk} from "../redux/card-reducer";
+import {createCardThunk, getCardsThunk} from "../redux/card-reducer";
 import TableForCards from "../components/TableForCards";
 import '../styles/App.css'
 import MyButton from "../components/UI/button/MyButton";
@@ -13,7 +13,15 @@ import MyInput from "../components/UI/input/MyInput";
 const CardsList = () => {
     const dispatch = useDispatch();
     const {packId} = useParams();
-
+    const [modal, setModal] = useState(false)
+    const [answer, setAnswer] = useState("")
+    const [question, setQuestion] = useState("")
+    const addNewCard = () => {
+        dispatch(createCardThunk(answer, question, packId))
+        setQuestion("")
+        setAnswer("")
+        setModal(false)
+    }
     useEffect(() => {
         dispatch(getCardsThunk(packId))
     }, [packId])
@@ -25,16 +33,18 @@ const CardsList = () => {
             </div>
             <div className='searchAndBtn'>
                 <SearchForm/>
-                <MyButton>Add new card</MyButton>
-                {/*<MyModal visible={modal} setVisible={setModal}>*/}
-                {/*    <h3>Add new pack</h3>*/}
-                {/*    <MyInput value={inputModal} placeholder='Name pack'*/}
-                {/*             onChange={(e) => setInputModal(e.target.value)}/>*/}
-                {/*    <div className='addNewPackModalBtn'>*/}
-                {/*        <MyButton onClick={() => setModal(false)}>Cancel</MyButton>*/}
-                {/*        <MyButton onClick={addNewPack}>Save</MyButton>*/}
-                {/*    </div>*/}
-                {/*</MyModal>*/}
+                <MyButton onClick={() => setModal(true)}>Add new card</MyButton>
+                <MyModal visible={modal} setVisible={setModal}>
+                    <h3>Add new card</h3>
+                    <MyInput value={question} placeholder='Question'
+                             onChange={(e) => setQuestion(e.target.value)}/>
+                    <MyInput value={answer} placeholder='Answer'
+                             onChange={(e) => setAnswer(e.target.value)}/>
+                    <div className='addNewPackModalBtn'>
+                        <MyButton onClick={() => setModal(false)}>Cancel</MyButton>
+                        <MyButton onClick={addNewCard}>Save</MyButton>
+                    </div>
+                </MyModal>
             </div>
             <TableForCards/>
         </div>
