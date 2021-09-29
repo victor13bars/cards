@@ -105,12 +105,12 @@ export const createPackThunk = (packName, userId) => async (dispatch) => {
     }
 }
 
-export const deletePackThunk = (packId) => async (dispatch) => {
+export const deletePackThunk = (packId, userId) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         let deletePack = await packsAPI.deleteCardsPack(packId)
         console.log(deletePack)
-        dispatch(getPacksThunk())
+        dispatch(getPacksThunk(userId))
     } catch (e) {
         console.log(e.response)
         let error = e.response ? e.response.data.error : "Server Error"
@@ -121,12 +121,12 @@ export const deletePackThunk = (packId) => async (dispatch) => {
     }
 }
 
-export const editPackThunk = (packId, newPackName) => async (dispatch) => {
+export const editPackThunk = (packId, newPackName, userId) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         let editCardsPack = await packsAPI.editCardsPack({_id: packId, name: newPackName})
         console.log(editCardsPack)
-        dispatch(getPacksThunk())
+        dispatch(getPacksThunk(userId))
     } catch (e) {
         console.log(e.response)
         let error = e.response ? e.response.data.error : "Server Error"

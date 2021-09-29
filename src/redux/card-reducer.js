@@ -2,11 +2,10 @@ import {authAPI, cardAPI, packsAPI} from "../api/api";
 import {setAuth, setError, setIsError, setLoading, setLoginInfo} from "./auth-reducer";
 
 const SET_CARDS = "SET_CARDS"
-// const SET_SEARCH_VALUE = "SET_SEARCH_VALUE"
-// const SET_TYPE_SORT = "SET_TYPE_SORT"
-// const SET_IS_MYPACKS = "SET_IS_MYPACKS"
-// const SET_PAGE = "SET_PAGE"
-// const SET_PAGE_COUNT = "SET_PAGE_COUNT"
+const SET_SEARCH_QUESTION = "SET_SEARCH_QUESTION"
+const SET_CARDS_TYPE_SORT = "SET_CARDS_TYPE_SORT"
+const SET_CARD_PAGE = "SET_CARD_PAGE"
+const SET_CARD_PAGE_COUNT = "SET_CARD_PAGE_COUNT"
 
 let initialState = {
     cards: [
@@ -30,7 +29,9 @@ let initialState = {
     minGrade: null,
     page: 1,
     pageCount: 4,
-    packUserId: null
+    packUserId: null,
+    questionSearch: "",
+    typeSort: "0grade"
 }
 
 export const cardReducer = (state = initialState, action) => {
@@ -41,6 +42,26 @@ export const cardReducer = (state = initialState, action) => {
                 ...action.payload,
                 cards: action.payload.cards
             }
+        case SET_SEARCH_QUESTION:
+            return {
+                ...state,
+                questionSearch: action.payload
+            }
+        case SET_CARD_PAGE:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case SET_CARD_PAGE_COUNT:
+            return {
+                ...state,
+                pageCount: action.payload
+            }
+        case SET_CARDS_TYPE_SORT:
+            return {
+                ...state,
+                typeSort: action.payload
+            }
 
         default:
             return state;
@@ -48,14 +69,16 @@ export const cardReducer = (state = initialState, action) => {
 }
 
 export const setCards = (cards) => ({type: SET_CARDS, payload: cards})
+export const setSearchQuestion = (value) => ({type: SET_SEARCH_QUESTION, payload: value})
+export const setCardPage = (page) => ({type: SET_CARD_PAGE, payload: page})
+export const setCardPageCount = (count) => ({type: SET_CARD_PAGE_COUNT, payload: count})
+export const setCardTypeSort = (sort) => ({type: SET_CARDS_TYPE_SORT, payload: sort})
 
-
-export const getCardsThunk = (cardsPackId) => async (dispatch) => {
-    // const {searchValue, sortPacks, page, pageCount} = getState().packs
-
+export const getCardsThunk = (cardsPackId) => async (dispatch, getState) => {
+    const {questionSearch, page, pageCount,typeSort} = getState().cards
     try {
         dispatch(setLoading(true))
-        let cardsData = await cardAPI.getCards(cardsPackId)
+        let cardsData = await cardAPI.getCards(questionSearch, cardsPackId,typeSort, page, pageCount)
         dispatch(setCards(cardsData))
     } catch (e) {
         console.log(e.response)
@@ -96,11 +119,11 @@ export const deleteCardThunk = (cardId, packId) => async (dispatch) => {
     }
 }
 
-export const editCardThunk = (packId,id,question,answer) => async (dispatch) => {
+export const editCardThunk = (packId, id, question, answer) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
-        let editCards = await cardAPI.editCard({_id: id, question: question,answer:answer})
-        dispatch(getCardsThunk(packId))
+        let editCards = await cardAPI.editCard({_id: id, question: question, answer: answer})
+        dispatch(getCardsThunk("", "", packId))
     } catch (e) {
         console.log(e.response)
         let error = e.response ? e.response.data.error : "Server Error"

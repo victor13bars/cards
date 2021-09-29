@@ -61,10 +61,14 @@ export const packsAPI = {
 }
 
 export const cardAPI = {
-    getCards(cardsPack_id) {
+    getCards(cardQuestion,cardsPack_id,sortCards,page,pageCount) {
         return instance.get(`cards/card`, {
             params: {
-                cardsPack_id
+                cardQuestion,
+                cardsPack_id,
+                sortCards,
+                page,
+                pageCount
             }
         })
             .then(res => res.data)
@@ -80,8 +84,9 @@ export const cardAPI = {
             .then(res => res.data)
     },
     editCard(editCardPayload) {
-        return instance.put(`card/card`, {
+        return instance.put(`cards/card`, {
             card: editCardPayload
         })
+            .then(res => res.data)
     }
 }

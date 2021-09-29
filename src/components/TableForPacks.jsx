@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import "../styles/App.css"
 import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
-import "../styles/App.css"
 import {useDispatch, useSelector} from "react-redux";
-import {createPackThunk, deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
+import {deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
-import {getPageCount, getPagesArray} from "./utils/pagesCreator";
-import Paginator from "./UI/Paginator/Paginator";
 import {NavLink} from "react-router-dom";
+import SortButton from "./SortButton";
 
 const TableForPacks = () => {
     const columnNameTable = [
@@ -34,17 +32,29 @@ const TableForPacks = () => {
         setSaveId(id)
     }
     const delPack = () => {
-        dispatch(deletePackThunk(saveId))
-        setDelModal(false)
+        if (isMyPacks) {
+            dispatch(deletePackThunk(saveId, userId))
+            setDelModal(false)
+        } else {
+            dispatch(deletePackThunk(saveId))
+            setDelModal(false)
+        }
     }
-    const editOnClickBtn = (id) => {
+    const editOnClickBtn = (id, name) => {
         setEditModal(true)
+        setInputEditModal(name)
         setSaveId(id)
     }
     const editPack = () => {
-        dispatch(editPackThunk(saveId, inputEditModal))
-        setEditModal(false)
-        setInputEditModal('')
+        if (isMyPacks) {
+            dispatch(editPackThunk(saveId, inputEditModal, userId))
+            setEditModal(false)
+            setInputEditModal('')
+        } else {
+            dispatch(editPackThunk(saveId, inputEditModal))
+            setEditModal(false)
+            setInputEditModal('')
+        }
     }
     const SortUp = () => {
         if (isMyPacks) {
@@ -65,8 +75,48 @@ const TableForPacks = () => {
             dispatch(getPacksThunk())
         }
     }
+    const SortColumnCardsUp = () => {
+        if (isMyPacks) {
+            dispatch(setTypeSort("1cardsCount"))
+            dispatch(getPacksThunk(userId))
+        } else {
+            dispatch(setTypeSort("1cardsCount"))
+            dispatch(getPacksThunk())
+        }
+
+    }
+    const SortColumnCardsDown = () => {
+        if (isMyPacks) {
+            dispatch(setTypeSort("0cardsCount"))
+            dispatch(getPacksThunk(userId))
+        } else {
+            dispatch(setTypeSort("0cardsCount"))
+            dispatch(getPacksThunk())
+        }
+    }
     return (
         <div>
+
+            <MyModal visible={delModal} setVisible={setDelModal}>
+                <h3>Delete Pack</h3>
+                <p>Do you really want to remove Pack?<br/>
+                    All cards will be excluded from this course
+                </p>
+                <div className='addNewPackModalBtn'>
+                    <MyButton onClick={() => setDelModal(false)}>Cancel</MyButton>
+                    <MyButton onClick={delPack}>Delete</MyButton>
+                </div>
+            </MyModal>
+
+            <MyModal visible={editModal} setVisible={setEditModal}>
+                <h3>Edit Pack</h3>
+                <MyInput value={inputEditModal} placeholder='New pack name'
+                         onChange={(e) => setInputEditModal(e.target.value)}/>
+                <div className='addNewPackModalBtn'>
+                    <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
+                    <MyButton onClick={editPack}>Save</MyButton>
+                </div>
+            </MyModal>
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -75,16 +125,28 @@ const TableForPacks = () => {
 
                                 return <th key={el.id}>
                                     {el.columnName}
-                                    <MyButton
-                                        className={sortPacks === "0updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}
-                                        onClick={SortUp}
-                                    >Up</MyButton>
-                                    <MyButton
-                                        className={sortPacks === "1updated" ? "table_sort_btn_passive" : "table_sort_btn_active"}
-                                        onClick={SortDown}
-                                    >Down</MyButton>
+                                    <SortButton
+                                        typeSort={sortPacks}
+                                        startValue="0updated"
+                                        endValue="1updated"
+                                        SortUp={SortUp}
+                                        SortDown={SortDown}
+                                    />
                                 </th>
                             }
+                        if (el.columnName === "Cards") {
+
+                            return <th key={el.id}>
+                                {el.columnName}
+                                <SortButton
+                                    typeSort={sortPacks}
+                                    startValue="0cardsCount"
+                                    endValue="1cardsCount"
+                                    SortUp={SortColumnCardsUp}
+                                    SortDown={SortColumnCardsDown}
+                                />
+                            </th>
+                        }
                             return <th key={el.id}>{el.columnName}</th>
                         }
                     )}
@@ -100,30 +162,8 @@ const TableForPacks = () => {
                         <td>
                             {el.user_id === userId ?
                                 <div className='table_actions_btn'>
-
-                                    <MyModal visible={delModal} setVisible={setDelModal}>
-                                        <h3>Delete Pack</h3>
-                                        <p>Do you really want to remove Pack?<br/>
-                                            All cards will be excluded from this course
-                                        </p>
-                                        <div className='addNewPackModalBtn'>
-                                            <MyButton onClick={() => setDelModal(false)}>Cancel</MyButton>
-                                            <MyButton onClick={delPack}>Delete</MyButton>
-                                        </div>
-                                    </MyModal>
-
-                                    <MyModal visible={editModal} setVisible={setEditModal} id={el._id}
-                                             callback={editPack}>
-                                        <h3>Edit Pack</h3>
-                                        <MyInput value={inputEditModal} placeholder='New pack name'
-                                                 onChange={(e) => setInputEditModal(e.target.value)}/>
-                                        <div className='addNewPackModalBtn'>
-                                            <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
-                                            <MyButton onClick={editPack}>Save</MyButton>
-                                        </div>
-                                    </MyModal>
                                     <MyButton onClick={() => delOnClickBtn(el._id)}>Delete</MyButton>
-                                    <MyButton onClick={() => editOnClickBtn(el._id)}>Edit</MyButton>
+                                    <MyButton onClick={() => editOnClickBtn(el._id,el.name)}>Edit</MyButton>
                                     <MyButton>Learn</MyButton>
                                 </div>
                                 :
