@@ -10,6 +10,7 @@ import Error from "./pages/Error";
 import {useSelector} from "react-redux";
 import PacksList from "./pages/PacksList";
 import CardsList from "./pages/CardsList";
+import LearnPage from "./pages/LearnPage";
 
 function App() {
     const isAuth = useSelector(state => state.auth.isAuth)
@@ -24,6 +25,7 @@ function App() {
                 <Route exact path='/newPassword' component={PasswordNew}/>
                 <Route exact path='/packsList' component={PacksList}/>
                 <Route exact path='/cardsList/:packId' component={CardsList}/>
+                <Route exact path='/learnPage/:packId' component={LearnPage}/>
                 <Route exact path='/error' component={Error}/>
                 <Redirect to='/'/>
             </Switch>

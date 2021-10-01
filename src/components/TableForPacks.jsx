@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deletePackThunk, editPackThunk, getPacksThunk, setTypeSort} from "../redux/pack-reducer";
 import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
 import SortButton from "./SortButton";
 
 const TableForPacks = () => {
@@ -26,6 +26,7 @@ const TableForPacks = () => {
     const [editModal, setEditModal] = useState(false)
     const [inputEditModal, setInputEditModal] = useState("")
     const [saveId, setSaveId] = useState(0)
+    const history = useHistory()
 
     const delOnClickBtn = (id) => {
         setDelModal(true)
@@ -94,9 +95,12 @@ const TableForPacks = () => {
             dispatch(getPacksThunk())
         }
     }
+    const learn = (id) => {
+        history.push(`/learnPage/${id}`)
+    }
     return (
         <div>
-
+            {}
             <MyModal visible={delModal} setVisible={setDelModal}>
                 <h3>Delete Pack</h3>
                 <p>Do you really want to remove Pack?<br/>
@@ -134,19 +138,19 @@ const TableForPacks = () => {
                                     />
                                 </th>
                             }
-                        if (el.columnName === "Cards") {
+                            if (el.columnName === "Cards") {
 
-                            return <th key={el.id}>
-                                {el.columnName}
-                                <SortButton
-                                    typeSort={sortPacks}
-                                    startValue="0cardsCount"
-                                    endValue="1cardsCount"
-                                    SortUp={SortColumnCardsUp}
-                                    SortDown={SortColumnCardsDown}
-                                />
-                            </th>
-                        }
+                                return <th key={el.id}>
+                                    {el.columnName}
+                                    <SortButton
+                                        typeSort={sortPacks}
+                                        startValue="0cardsCount"
+                                        endValue="1cardsCount"
+                                        SortUp={SortColumnCardsUp}
+                                        SortDown={SortColumnCardsDown}
+                                    />
+                                </th>
+                            }
                             return <th key={el.id}>{el.columnName}</th>
                         }
                     )}
@@ -163,12 +167,12 @@ const TableForPacks = () => {
                             {el.user_id === userId ?
                                 <div className='table_actions_btn'>
                                     <MyButton onClick={() => delOnClickBtn(el._id)}>Delete</MyButton>
-                                    <MyButton onClick={() => editOnClickBtn(el._id,el.name)}>Edit</MyButton>
-                                    <MyButton>Learn</MyButton>
+                                    <MyButton onClick={() => editOnClickBtn(el._id, el.name)}>Edit</MyButton>
+                                    <MyButton onClick={() => learn(el._id)}>Learn</MyButton>
                                 </div>
                                 :
                                 <div className='table_actions_btn'>
-                                    <MyButton>Learn</MyButton>
+                                    <MyButton onClick={() => learn(el._id)}>Learn</MyButton>
                                 </div>
                             }
                         </td>
