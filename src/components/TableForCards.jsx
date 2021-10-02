@@ -16,6 +16,7 @@ const TableForCards = ({packId}) => {
         {id: 4, columnName: "Grade"},
         {id: 5, columnName: "Actions"}
     ]
+    console.log("packId",packId)
     const cardsArray = useSelector(state => state.cards.cards)
     const dispatch = useDispatch()
     const userId = useSelector(state => state.auth._id)

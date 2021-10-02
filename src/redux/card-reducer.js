@@ -123,7 +123,7 @@ export const editCardThunk = (packId, id, question, answer) => async (dispatch) 
     try {
         dispatch(setLoading(true))
         let editCards = await cardAPI.editCard({_id: id, question: question, answer: answer})
-        dispatch(getCardsThunk("", "", packId))
+        dispatch(getCardsThunk(packId))
     } catch (e) {
         console.log(e.response)
         let error = e.response ? e.response.data.error : "Server Error"

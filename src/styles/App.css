@@ -117,6 +117,7 @@ form {
     display: flex;
     justify-content: space-around;
 }
+
 /*tableActions_btn_allPacks*/
 
 .table_sort_btn_active {
@@ -139,7 +140,7 @@ form {
     margin-left: 5px;
 }
 
-.addNewPackModalBtn{
+.addNewPackModalBtn {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
@@ -151,9 +152,44 @@ form {
     border: 1px solid green;
     background: transparent;
 }
+
 .PackListBtn_passive {
     padding: 2px 12px;
     color: palevioletred;
     border: 1px solid palevioletred;
     background: transparent;
+}
+
+.learn_Page {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+.questionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.questionContainer h2 {
+    margin-bottom: 20px;
+}
+
+.doubleBtn {
+    width: 20vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rateBtns {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.rateBtn {
+    margin-left: 15px;
 }
