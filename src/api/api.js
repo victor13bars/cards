@@ -27,6 +27,7 @@ export const authAPI = {
             .then(res => res.data)
     }
 }
+
 export const packsAPI = {
     getCardsPack(packName, sortPacks, page, pageCount, user_id) {
         return instance.get(`cards/pack`, {
@@ -61,7 +62,7 @@ export const packsAPI = {
 }
 
 export const cardAPI = {
-    getCards(cardQuestion,cardsPack_id,sortCards,page,pageCount) {
+    getCards(cardQuestion, cardsPack_id, sortCards, page, pageCount) {
         return instance.get(`cards/card`, {
             params: {
                 cardQuestion,
@@ -86,6 +87,16 @@ export const cardAPI = {
     editCard(editCardPayload) {
         return instance.put(`cards/card`, {
             card: editCardPayload
+        })
+            .then(res => res.data)
+    }
+}
+
+export const gradeAPI = {
+    editGrade(grade, card_id) {
+        return instance.put(`cards/grade`, {
+            grade,
+            card_id
         })
             .then(res => res.data)
     }

@@ -1,4 +1,4 @@
-import {authAPI, cardAPI, packsAPI} from "../api/api";
+import {authAPI, cardAPI, gradeAPI, packsAPI} from "../api/api";
 import {setAuth, setError, setIsError, setLoading, setLoginInfo} from "./auth-reducer";
 
 const SET_CARDS = "SET_CARDS"
@@ -75,10 +75,10 @@ export const setCardPageCount = (count) => ({type: SET_CARD_PAGE_COUNT, payload:
 export const setCardTypeSort = (sort) => ({type: SET_CARDS_TYPE_SORT, payload: sort})
 
 export const getCardsThunk = (cardsPackId) => async (dispatch, getState) => {
-    const {questionSearch, page, pageCount,typeSort} = getState().cards
+    const {questionSearch, page, pageCount, typeSort} = getState().cards
     try {
         dispatch(setLoading(true))
-        let cardsData = await cardAPI.getCards(questionSearch, cardsPackId,typeSort, page, pageCount)
+        let cardsData = await cardAPI.getCards(questionSearch, cardsPackId, typeSort, page, pageCount)
         dispatch(setCards(cardsData))
     } catch (e) {
         console.log(e.response)
@@ -126,6 +126,19 @@ export const editCardThunk = (packId, id, question, answer) => async (dispatch) 
         dispatch(getCardsThunk(packId))
     } catch (e) {
         console.log(e.response)
+        let error = e.response ? e.response.data.error : "Server Error"
+        dispatch(setError(error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
+
+export const editGradeThunk = (grade, card_id) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let editGrade = await gradeAPI.editGrade(grade, card_id)
+    } catch (e) {
         let error = e.response ? e.response.data.error : "Server Error"
         dispatch(setError(error))
         dispatch(setIsError(true))

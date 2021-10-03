@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import "../styles/App.css"
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsThunk, setCardPageCount} from "../redux/card-reducer";
+import {editGradeThunk, getCardsThunk, setCardPageCount} from "../redux/card-reducer";
 import MyButton from "../components/UI/button/MyButton";
 import {getCard} from "../components/utils/getCard";
 
@@ -18,6 +18,7 @@ const LearnPage = () => {
         setAnswer(false)
     }
     const grade = (grade) => {
+        dispatch(editGradeThunk(grade, card._id))
         console.log(grade)
     }
     useEffect(() => {
