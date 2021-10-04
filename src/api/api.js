@@ -98,6 +98,6 @@ export const gradeAPI = {
             grade,
             card_id
         })
-            .then(res => res.data)
+            .then(res => res.data.updatedGrade)
     }
 }

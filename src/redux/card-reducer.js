@@ -6,6 +6,7 @@ const SET_SEARCH_QUESTION = "SET_SEARCH_QUESTION"
 const SET_CARDS_TYPE_SORT = "SET_CARDS_TYPE_SORT"
 const SET_CARD_PAGE = "SET_CARD_PAGE"
 const SET_CARD_PAGE_COUNT = "SET_CARD_PAGE_COUNT"
+const SET_EDIT_GRADE = "SET_EDIT_GRADE"
 
 let initialState = {
     cards: [
@@ -62,6 +63,14 @@ export const cardReducer = (state = initialState, action) => {
                 ...state,
                 typeSort: action.payload
             }
+        case SET_EDIT_GRADE:
+            return {
+                ...state,
+                cards: state.cards.map(card => card._id === action.payload.card_id ? {
+                    ...card,
+                    grade: action.payload.grade
+                } : card)
+            }
 
         default:
             return state;
@@ -73,6 +82,7 @@ export const setSearchQuestion = (value) => ({type: SET_SEARCH_QUESTION, payload
 export const setCardPage = (page) => ({type: SET_CARD_PAGE, payload: page})
 export const setCardPageCount = (count) => ({type: SET_CARD_PAGE_COUNT, payload: count})
 export const setCardTypeSort = (sort) => ({type: SET_CARDS_TYPE_SORT, payload: sort})
+export const setEditGrade = (editGrade) => ({type: SET_EDIT_GRADE, payload: editGrade})
 
 export const getCardsThunk = (cardsPackId) => async (dispatch, getState) => {
     const {questionSearch, page, pageCount, typeSort} = getState().cards
@@ -138,6 +148,8 @@ export const editGradeThunk = (grade, card_id) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         let editGrade = await gradeAPI.editGrade(grade, card_id)
+        console.log("editGrade",editGrade)
+        dispatch(setEditGrade(editGrade))
     } catch (e) {
         let error = e.response ? e.response.data.error : "Server Error"
         dispatch(setError(error))
