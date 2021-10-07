@@ -11,25 +11,15 @@ import {useSelector} from "react-redux";
 import PacksList from "./pages/PacksList";
 import CardsList from "./pages/CardsList";
 import LearnPage from "./pages/LearnPage";
+import AppRouter from "./components/AppRouter";
 
 function App() {
     const isAuth = useSelector(state => state.auth.isAuth)
     return (
         <BrowserRouter>
             <Navbar/>
-            <Switch>
-                <Route exact path='/login' component={Login}/>
-                <Route exact path='/registration' component={Registration}/>
-                <Route exact path='/profile' component={Profile}/>
-                <Route exact path='/recovery' component={PasswordRecovery}/>
-                <Route exact path='/newPassword' component={PasswordNew}/>
-                <Route exact path='/packsList' component={PacksList}/>
-                <Route exact path='/cardsList/:packId' component={CardsList}/>
-                <Route exact path='/learnPage/:packId' component={LearnPage}/>
-                <Route exact path='/error' component={Error}/>
-                <Redirect to='/'/>
-            </Switch>
-            {!isAuth && <Redirect to='/login'/>}
+            <AppRouter/>
+            {/*{!isAuth && <Redirect to='/login'/>}*/}
         </BrowserRouter>
     );
 }
