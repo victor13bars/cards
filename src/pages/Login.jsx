@@ -27,30 +27,27 @@ const Login = () => {
         return <Redirect to='/error'/>
     }
     return (
-        isAuth
-            ?
-            <Redirect to='/profile'/>
-            :
-            <div className='login'>
-                <h2>Sign In</h2>
-                <form name='login' action="" onSubmit={loginSubmit}>
-                    <MyInput name='email' type='text' placeholder='Email'/>
-                    <MyInput name='password' type='password' placeholder='Password'/>
-                    <div className='rememberMe'>
-                        <h3>Remember Me</h3>
-                        <MyInput name='rememberMe' type='checkBox' placeholder='RememberMe'/>
-                    </div>
-                    <div className="forgot">
-                        <Link to='/recovery'>Forgot Password</Link>
-                    </div>
-                    <MyButton disable={isLoading}>Login</MyButton>
-                </form>
-                <div className='notAccount'>
-                    <h3>Don't have an account?</h3>
-                    <Link to='/registration'>Sign Up</Link>
+        !isAuth &&
+        <div className='login'>
+            <h2>Sign In</h2>
+            <form name='login' action="" onSubmit={loginSubmit}>
+                <MyInput name='email' type='text' placeholder='Email'/>
+                <MyInput name='password' type='password' placeholder='Password'/>
+                <div className='rememberMe'>
+                    <h3>Remember Me</h3>
+                    <MyInput name='rememberMe' type='checkBox' placeholder='RememberMe'/>
                 </div>
-
+                <div className="forgot">
+                    <Link to='/recovery'>Forgot Password</Link>
+                </div>
+                <MyButton disable={isLoading}>Login</MyButton>
+            </form>
+            <div className='notAccount'>
+                <h3>Don't have an account?</h3>
+                <Link to='/registration'>Sign Up</Link>
             </div>
+
+        </div>
 
     );
 };

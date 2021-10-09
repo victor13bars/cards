@@ -15,8 +15,15 @@ import TableForPacks from "../components/TableForPacks";
 import SearchForm from "../components/SearchForm";
 import MyModal from "../components/UI/MyModal/MyModal";
 import Paginator from "../components/UI/Paginator/Paginator";
+import {authMeThunk} from "../redux/auth-reducer";
+import Loader from "../components/UI/Loader/Loader";
+import {Redirect} from "react-router-dom";
 
 const PacksList = () => {
+    const isLoading = useSelector(state => state.auth.isLoading)
+    const isError = useSelector(state => state.auth.isError)
+    const packs = useSelector(state => state.packs.cardPacks)
+    const isAuth = useSelector(state => state.auth.isAuth)
     const userId = useSelector(state => state.auth._id)
     const isMyPacks = useSelector(state => state.packs.isMyPacks)
     const pageCount = useSelector(state => state.packs.pageCount)
@@ -93,6 +100,18 @@ const PacksList = () => {
         dispatch(getPacksThunk())
     }, [])
 
+    useEffect(() => {
+
+
+            dispatch(authMeThunk())
+
+    }, [isAuth])
+    if (isLoading) {
+        return <Loader/>
+    }
+    if (isError) {
+        return <Redirect to='/error'/>
+    }
     return (
         <div className='packList'>
             <MyModal visible={modal} setVisible={setModal}>

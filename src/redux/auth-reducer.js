@@ -115,3 +115,17 @@ export const registerThunk = (email, password) => async (dispatch) => {
         dispatch(setLoading(false))
     }
 }
+
+export const authMeThunk = () => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let authMeData = await authAPI.authMe();
+        dispatch(setLoginInfo(authMeData))
+        dispatch(setAuth(true))
+    } catch (e) {
+        dispatch(setError(e.response.data.error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}

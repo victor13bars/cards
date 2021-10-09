@@ -14,21 +14,23 @@ const Navbar = () => {
 
     return (
         <div className={classes.navbar}>
-
-            <div className={classes.navbar__links}>
-                <Link to='/login'>Login</Link>
-                <Link to='/registration'>Registration</Link>
-                <Link to='/profile'>Profile</Link>
-                <Link to='/recovery'>PasswordRecovery</Link>
-                <Link to='/newPassword'>NewPassword</Link>
-                <Link to='/packsList'>PacksList</Link>
-                <Link to='/cardsList'>CardsList</Link>
-                <Link to='/error'>404</Link>
-            </div>
-            {
-                isAuth && <MyButton onClick={logout}>Logout</MyButton>
+            {isAuth ?
+                <div className={classes.navbar__links}>
+                    <div className={classes.navbar__links_auth}>
+                        <Link to='/profile'>Profile</Link>
+                        <Link to='/packsList'>PacksList</Link>
+                    </div>
+                    <MyButton onClick={logout}>Logout</MyButton>
+                </div>
+                :
+                <div className={classes.navbar__links}>
+                    <Link to='/login'>Login</Link>
+                    <Link to='/registration'>Registration</Link>
+                    <Link to='/recovery'>PasswordRecovery</Link>
+                    <Link to='/newPassword'>NewPassword</Link>
+                    <Link to='/error'>404</Link>
+                </div>
             }
-
         </div>
     );
 };

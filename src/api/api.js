@@ -25,6 +25,10 @@ export const authAPI = {
             password
         })
             .then(res => res.data)
+    },
+    authMe() {
+        return instance.post(`auth/me`, {})
+            .then(res => res.data)
     }
 }
 

@@ -8,8 +8,18 @@
 }
 
 .navbar__links {
-    margin-right: auto;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+
     /*background-color: orangered;*/
+}
+.navbar__links_auth{
+    width: 90vw;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    padding-left: 75px;
 }
 
 .navbar__links a {
