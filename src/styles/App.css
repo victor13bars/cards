@@ -193,3 +193,48 @@ form {
 .rateBtn {
     margin-left: 15px;
 }
+
+.profileContainer {
+    width: 60vw;
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.profileImg_wrapper {
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profileImg_wrapper button {
+    margin-top: 20px;
+}
+
+.profilePhoto{
+    border: 3px solid blueviolet;
+    border-radius: 30px;
+    height: 400px;
+}
+
+.profileImg {
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+    /*background-repeat: no-repeat;*/
+    /*background-position: -40px 0px;*/
+    /*background-size: cover;*/
+
+}
+
+.profileInfo_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+    width: 40vw;
+    color: blueviolet;
+    font-weight: bold;
+    font-size: 20px;
+}

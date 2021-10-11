@@ -9,9 +9,9 @@ const SET_IS_CRUSER = 'SET_IS_CRUSER'
 
 let initialState = {
     _id: "",
-    email: "",
-    name: "",
-    avatar: "",
+    email: null,
+    name: null,
+    avatar: null,
     publicCardPacksCount: null,
     created: null,
     updated: null,

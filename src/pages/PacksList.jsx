@@ -100,12 +100,6 @@ const PacksList = () => {
         dispatch(getPacksThunk())
     }, [])
 
-    useEffect(() => {
-
-
-            dispatch(authMeThunk())
-
-    }, [isAuth])
     if (isLoading) {
         return <Loader/>
     }
