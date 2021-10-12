@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MyInput from "../components/UI/input/MyInput";
 import MyButton from "../components/UI/button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
-import {loginThunk, setLoginInfo} from "../redux/auth-reducer";
+import {authMeThunk, loginThunk, setLoginInfo} from "../redux/auth-reducer";
 import {authAPI} from "../api/api";
 import Loader from "../components/UI/Loader/Loader";
 import {Link, Redirect} from "react-router-dom";
@@ -12,7 +12,7 @@ const Login = () => {
     const isAuth = useSelector(state => state.auth.isAuth)
     const isLoading = useSelector(state => state.auth.isLoading)
     const isError = useSelector(state => state.auth.isError)
-    console.log(";lk;lk;kllk;")
+    console.log("LOGINNNNNN")
 
     const loginSubmit = (e) => {
         e.preventDefault()
@@ -26,6 +26,8 @@ const Login = () => {
     if (isError) {
         return <Redirect to='/error'/>
     }
+
+
     return (
         !isAuth &&
         <div className='login'>

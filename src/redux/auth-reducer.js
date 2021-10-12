@@ -8,7 +8,7 @@ const SET_IS_ERROR = 'SET_IS_ERROR'
 const SET_IS_CRUSER = 'SET_IS_CRUSER'
 
 let initialState = {
-    _id: "",
+    _id: null,
     email: null,
     name: null,
     avatar: null,
@@ -122,6 +122,21 @@ export const authMeThunk = () => async (dispatch) => {
         let authMeData = await authAPI.authMe();
         dispatch(setLoginInfo(authMeData))
         dispatch(setAuth(true))
+    } catch (e) {
+        dispatch(setError(e.response.data.error))
+        dispatch(setIsError(true))
+    } finally {
+        dispatch(setLoading(false))
+    }
+}
+
+export const editAuthMeThunk = (name,avatar) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let editAuthMeData = await authAPI.editAuthMe(name,avatar);
+        console.log('editAuthMeData',editAuthMeData)
+        dispatch(setLoginInfo(editAuthMeData))
+
     } catch (e) {
         dispatch(setError(e.response.data.error))
         dispatch(setIsError(true))

@@ -29,6 +29,13 @@ export const authAPI = {
     authMe() {
         return instance.post(`auth/me`, {})
             .then(res => res.data)
+    },
+    editAuthMe(name, avatar) {
+        return instance.put(`auth/me`, {
+            name,
+            avatar
+        })
+            .then(res => res.data.updatedUser)
     }
 }
 

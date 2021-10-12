@@ -7,7 +7,6 @@ import {authMeThunk} from "../redux/auth-reducer";
 const AppRouter = () => {
     const isAuth = useSelector(state => state.auth.isAuth)
 
-
     return (
         isAuth
             ?

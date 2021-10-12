@@ -17,12 +17,9 @@ import {authMeThunk} from "./redux/auth-reducer";
 function App() {
     const isAuth = useSelector(state => state.auth.isAuth)
     const dispatch = useDispatch()
-    useEffect(() => {
-        if (!isAuth) {
-            dispatch(authMeThunk())
-        }
-
-    }, [])
+    // useEffect(() => {
+    //
+    // }, [])
     return (
         <BrowserRouter>
             <Navbar/>

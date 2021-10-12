@@ -1,37 +1,88 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import "../styles/App.css"
 import myPhoto from '../assets/images/MyPhoto.jpg'
 import MyButton from "../components/UI/button/MyButton";
+import MyInput from "../components/UI/input/MyInput";
+import {authMeThunk, editAuthMeThunk} from "../redux/auth-reducer";
+
 
 const Profile = () => {
+    const dispatch = useDispatch()
+    const inRef = useRef(null);
+    const [file, setFile] = useState()
+    // const [fileData, setFileData] = useState();
     const avatar = useSelector(state => state.auth.avatar)
     const email = useSelector(state => state.auth.email)
     const name = useSelector(state => state.auth.name)
     const publicCardPacksCount = useSelector(state => state.auth.publicCardPacksCount)
     const created = useSelector(state => state.auth.created)
     const verified = useSelector(state => state.auth.verified.toString())
+    const [edit, setEdit] = useState(false)
+    const [newName, setNewName] = useState(name)
+
+
+    const upload = (e) => {
+        e.preventDefault()
+        const formData = new FormData(); // for send to back
+        const newFile = e.target.files && e.target.files[0];
+        if (newFile) {
+            setFile(newFile);
+            let avatarUrl = window.URL.createObjectURL(newFile)
+            // setFileURL(window.URL.createObjectURL(newFile));
+            // formData.append('myFile', newFile, newFile.name);
+            // setFileData(formData);
+            dispatch(editAuthMeThunk(newName, avatarUrl))
+        }
+
+    }
+    const onBlur = (e) => {
+        setEdit(false)
+        dispatch(editAuthMeThunk(newName, ""))
+    }
+
 
     return (
-        <div className="profileContainer">
-            <div className='profileImg_wrapper'>
-                <div className='profilePhoto'>
-                    <img className='profileImg' src={avatar ? avatar : myPhoto} />
-                </div>
+        <>
+            <h2 style={{marginTop: '20px'}}> My Profile </h2>
+            <div className="profileContainer">
+                <div className='profileImg_wrapper'>
 
-                <div>
-                    <MyButton>Upload photo</MyButton>
+                    <img className='profileImg' src={avatar ? avatar : myPhoto}/>
+                    <input
+                        ref={inRef}
+                        type="file"
+                        style={{display: 'none'}}
+                        accept=".jpg, .jpeg, .png"
+                        multiple
+                        onChange={upload}
+                    />
+
+                    <MyButton onClick={() => inRef && inRef.current && inRef.current.click()}>Upload photo</MyButton>
+                    {/*<MyButton onClick={upload}>Upload photo</MyButton>*/}
+
+                </div>
+                <div className='profileInfo_wrapper'>
+                    <p>To change the name, double-click on it</p>
+                    <div className='edit_p'>
+                        <p>Name : </p>
+                        {!edit
+                            ?
+                            <p onDoubleClick={() => setEdit(true)}>{newName} </p>
+                            :
+                            <MyInput
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                                onBlur={onBlur}
+                            />}
+                    </div>
+                    <p>E-mail : {email}</p>
+                    <p>Count packs : {publicCardPacksCount}</p>
+                    <p>Created : {created}</p>
+                    <p>Verified : {verified}</p>
                 </div>
             </div>
-            <div className='profileInfo_wrapper'>
-                <p>To change the name, double-click on it</p>
-                <p>Name : {name}</p>
-                <p>E-mail : {email}</p>
-                <p>Count packs : {publicCardPacksCount}</p>
-                <p>Created : {created}</p>
-                <p>Verified : {verified}</p>
-            </div>
-        </div>
+        </>
     );
 };
 
