@@ -7,6 +7,7 @@ import MyModal from "./UI/MyModal/MyModal";
 import {deleteCardThunk, editCardThunk, getCardsThunk, setCardTypeSort} from "../redux/card-reducer";
 import MyInput from "./UI/input/MyInput";
 import SortButton from "./SortButton";
+import {trueDate} from "./utils/trueDate";
 
 const TableForCards = ({packId}) => {
     const columnNameTable = [
@@ -125,7 +126,7 @@ const TableForCards = ({packId}) => {
                     <tr key={el._id}>
                         <td>{el.question}</td>
                         <td>{el.answer}</td>
-                        <td>{el.updated}</td>
+                        <td>{trueDate(el.updated)}</td>
                         <td>{el.grade}</td>
                         <td>
                             {el.user_id === userId ?

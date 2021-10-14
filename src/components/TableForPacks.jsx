@@ -8,6 +8,7 @@ import MyModal from "./UI/MyModal/MyModal";
 import MyInput from "./UI/input/MyInput";
 import {NavLink, Redirect, useHistory} from "react-router-dom";
 import SortButton from "./SortButton";
+import {trueDate} from "./utils/trueDate";
 
 const TableForPacks = () => {
     const columnNameTable = [
@@ -27,7 +28,7 @@ const TableForPacks = () => {
     const [inputEditModal, setInputEditModal] = useState("")
     const [saveId, setSaveId] = useState(0)
     const history = useHistory()
-
+    console.log("TableForPacks",packs)
     const delOnClickBtn = (id) => {
         setDelModal(true)
         setSaveId(id)
@@ -99,8 +100,7 @@ const TableForPacks = () => {
         history.push(`/learnPage/${id}`)
     }
     return (
-        <div>
-            {}
+        <div className='table_Container'>
             <MyModal visible={delModal} setVisible={setDelModal}>
                 <h3>Delete Pack</h3>
                 <p>Do you really want to remove Pack?<br/>
@@ -151,7 +151,7 @@ const TableForPacks = () => {
                                     />
                                 </th>
                             }
-                            return <th key={el.id}>{el.columnName}</th>
+                            return <th key={el.id}><span>{el.columnName}</span></th>
                         }
                     )}
                 </tr>
@@ -161,7 +161,7 @@ const TableForPacks = () => {
                     <tr key={el._id}>
                         <td><NavLink to={`/cardsList/${el._id}`}>{el.name}</NavLink></td>
                         <td>{el.cardsCount}</td>
-                        <td>{el.updated}</td>
+                        <td>{trueDate(el.updated)}</td>
                         <td>{el.user_name}</td>
                         <td>
                             {el.user_id === userId ?

@@ -18,6 +18,7 @@ import Paginator from "../components/UI/Paginator/Paginator";
 import {authMeThunk} from "../redux/auth-reducer";
 import Loader from "../components/UI/Loader/Loader";
 import {Redirect} from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
 
 const PacksList = () => {
     const isLoading = useSelector(state => state.auth.isLoading)
@@ -104,7 +105,7 @@ const PacksList = () => {
         return <Loader/>
     }
     if (isError) {
-        return <Redirect to='/error'/>
+        return <ErrorMessage/>
     }
     return (
         <div className='packList'>
@@ -128,15 +129,20 @@ const PacksList = () => {
                 <SearchForm searchCallBack={btnSearch} placeholder="Search name"/>
                 <MyButton onClick={addNewPackOpenModal}>Add new pack</MyButton>
             </div>
-            <TableForPacks/>
-            <Paginator
-                pagesArray={pagesArray}
-                page={page}
-                cardPacksTotalCount={cardPacksTotalCount}
-                pageCount={pageCount}
-                onChangeCurPage={setCurPage}
-                onChangeCurPageCount={setCurPageCount}
-            />
+            {packs.length > 1
+            && <>
+                <TableForPacks/>
+                <Paginator
+                    pagesArray={pagesArray}
+                    page={page}
+                    cardPacksTotalCount={cardPacksTotalCount}
+                    pageCount={pageCount}
+                    onChangeCurPage={setCurPage}
+                    onChangeCurPageCount={setCurPageCount}
+                />
+            </>
+            }
+
         </div>
     );
 };

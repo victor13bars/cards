@@ -107,11 +107,11 @@ form {
 
 .table {
     margin-top: 30px;
+    text-align: center;
     /*width: 90vw;*/
     /*height: 90vh;*/
     border: 2px solid blueviolet;
 }
-
 
 .table_actions_btn {
     display: flex;
@@ -195,67 +195,73 @@ form {
 }
 
 .profileContainer {
-    width: 60vw;
+    width: 80vw;
     display: flex;
     flex-direction: row;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .profileImg_wrapper {
-    width: 25vw;
+    width: 50vw;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-
 }
 
-.profileImg_wrapper button {
-    margin-top: 20px;
+.profileImg_wrapper input {
+    width: 30%;
+    margin-bottom: 10px;
+}
+
+.profileImg_wrapper_text {
+    margin-top: 10px;
+    color: darkred;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profileImg_wrapper span {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: gray;
 }
 
 .profileImg {
-    border-radius: 30px;
-    width: 100%;
+    width: 40%;
+    height: 70%;
+}
+
+.profileImg img {
+    width: 100%; /* or any custom size */
     height: 100%;
-    /*background-repeat: no-repeat;*/
-    /*background-position: -40px 0px;*/
-    /*background-size: cover;*/
+    border-radius: 10px;
+
 
 }
 
 .profileInfo_wrapper {
+    height: 50vh;
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    margin-top: 10px;
-    margin-left: 90px;
-    width: 40vw;
-    color: blueviolet;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-
-.edit_p {
-    width: 80%;
-    display: flex;
+    justify-content: center;
     align-items: center;
-
-}
-.edit_p p:nth-child(2){
-    margin-left: 20px;
-}
-
-.edit_p input {
-    width: 20vw;
-    height: 40px;
-    margin-left: 20px;
+    color: darkred;
+    font-weight: normal;
+    font-size: 24px;
 }
 
-.errorMessage{
+.profileInfo_wrapper table  {
+    text-align: center;
+}
+
+
+.errorMessage {
     text-align: center;
     font-size: 20px;
-    color:blueviolet;
+    color: blueviolet;
+}
+
+.table_Container th{
+  text-align: center;
 }

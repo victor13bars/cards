@@ -5,6 +5,7 @@ import myPhoto from '../assets/images/MyPhoto.jpg'
 import MyButton from "../components/UI/button/MyButton";
 import MyInput from "../components/UI/input/MyInput";
 import {authMeThunk, editAuthMeThunk} from "../redux/auth-reducer";
+import {trueDate} from "../components/utils/trueDate";
 
 
 const Profile = () => {
@@ -47,8 +48,20 @@ const Profile = () => {
             <h2 style={{marginTop: '20px'}}> My Profile </h2>
             <div className="profileContainer">
                 <div className='profileImg_wrapper'>
+                    <div className='profileImg'>
+                        <img  src={avatar ? avatar : myPhoto}/>
+                    </div>
 
-                    <img className='profileImg' src={avatar ? avatar : myPhoto}/>
+                    {!edit
+                        ?
+                        <p className='profileImg_wrapper_text'  onDoubleClick={() => setEdit(true)}>{newName} </p>
+                        :
+                        <MyInput
+                            value={newName}
+                            onChange={(e) => setNewName(e.target.value)}
+                            onBlur={onBlur}
+                        />}
+                        <span>Front-end Developer</span>
                     <input
                         ref={inRef}
                         type="file"
@@ -63,22 +76,9 @@ const Profile = () => {
 
                 </div>
                 <div className='profileInfo_wrapper'>
-                    <p>To change the name, double-click on it</p>
-                    <div className='edit_p'>
-                        <p>Name : </p>
-                        {!edit
-                            ?
-                            <p onDoubleClick={() => setEdit(true)}>{newName} </p>
-                            :
-                            <MyInput
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
-                                onBlur={onBlur}
-                            />}
-                    </div>
                     <p>E-mail : {email}</p>
                     <p>Count packs : {publicCardPacksCount}</p>
-                    <p>Created : {created}</p>
+                    <p>Created : {trueDate(created)}</p>
                     <p>Verified : {verified}</p>
                 </div>
             </div>

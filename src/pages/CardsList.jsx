@@ -10,11 +10,16 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import MyInput from "../components/UI/input/MyInput";
 import Paginator from "../components/UI/Paginator/Paginator";
 import {getPacksThunk, setPage, setPageCount} from "../redux/pack-reducer";
+import Loader from "../components/UI/Loader/Loader";
+import ErrorMessage from "../components/ErrorMessage";
 
 const CardsList = () => {
     let pagesArray = []
     const dispatch = useDispatch();
     const {packId} = useParams();
+    const cardsArray = useSelector(state => state.cards.cards)
+    const isLoading = useSelector(state => state.auth.isLoading)
+    const isError = useSelector(state => state.auth.isError)
     const page = useSelector(state => state.cards.page)
     const pageCount = useSelector(state => state.cards.pageCount)
     const cardsTotalCount = useSelector(state => state.cards.cardsTotalCount)
@@ -46,6 +51,13 @@ const CardsList = () => {
         dispatch(getCardsThunk(packId))
     }, [packId])
 
+    if (isLoading) {
+        return <Loader/>
+    }
+    if (isError) {
+        return <ErrorMessage/>
+    }
+
     return (
         <div className='packList'>
             <MyModal visible={modal} setVisible={setModal}>
@@ -66,15 +78,21 @@ const CardsList = () => {
                 <SearchForm searchCallBack={searchCard} placeholder="search for questions"/>
                 <MyButton onClick={() => setModal(true)}>Add new card</MyButton>
             </div>
-            <TableForCards packId={packId}/>
-            <Paginator
-                pagesArray={pagesArray}
-                page={page}
-                cardPacksTotalCount={cardsTotalCount}
-                pageCount={pageCount}
-                onChangeCurPage={setCurPage}
-                onChangeCurPageCount={setCurPageCount}
-            />
+            {cardsArray.length > 1
+            &&
+            <>
+                <TableForCards packId={packId}/>
+                <Paginator
+                    pagesArray={pagesArray}
+                    page={page}
+                    cardPacksTotalCount={cardsTotalCount}
+                    pageCount={pageCount}
+                    onChangeCurPage={setCurPage}
+                    onChangeCurPageCount={setCurPageCount}
+                />
+            </>
+            }
+
         </div>
     );
 };
