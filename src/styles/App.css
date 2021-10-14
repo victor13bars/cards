@@ -253,3 +253,9 @@ form {
     height: 40px;
     margin-left: 20px;
 }
+
+.errorMessage{
+    text-align: center;
+    font-size: 20px;
+    color:blueviolet;
+}

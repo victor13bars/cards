@@ -1,11 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import classes from './Navbar.module.css'
 import MyButton from "../button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutThunk} from "../../../redux/auth-reducer";
 
-const Navbar = () => {
+
+const MyNavbar = () => {
     const isAuth = useSelector(state => state.auth.isAuth)
     const dispatch = useDispatch()
     const logout = () => {
@@ -17,22 +18,21 @@ const Navbar = () => {
             {isAuth ?
                 <div className={classes.navbar__links}>
                     <div className={classes.navbar__links_auth}>
-                        <Link to='/profile'>Profile</Link>
-                        <Link to='/packsList'>PacksList</Link>
+                        <NavLink to='/profile' activeClassName={classes.navbar__links_active}>Profile</NavLink>
+                        <NavLink to='/packsList'  activeClassName={classes.navbar__links_active}>PacksList</NavLink>
                     </div>
                     <MyButton onClick={logout}>Logout</MyButton>
                 </div>
                 :
                 <div className={classes.navbar__links}>
-                    <Link to='/login'>Login</Link>
-                    <Link to='/registration'>Registration</Link>
-                    <Link to='/recovery'>PasswordRecovery</Link>
-                    <Link to='/newPassword'>NewPassword</Link>
-                    <Link to='/error'>404</Link>
+                    <NavLink to='/login' activeClassName={classes.navbar__links_active}>Login</NavLink>
+                    <NavLink to='/registration' activeClassName={classes.navbar__links_active}>Registration</NavLink>
+                    <NavLink to='/recovery' activeClassName={classes.navbar__links_active}>PasswordRecovery</NavLink>
+                    <NavLink to='/newPassword' activeClassName={classes.navbar__links_active}>NewPassword</NavLink>
                 </div>
             }
         </div>
     );
 };
 
-export default Navbar;
+export default MyNavbar;

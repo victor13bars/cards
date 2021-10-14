@@ -5,7 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {authMeThunk, loginThunk, setLoginInfo} from "../redux/auth-reducer";
 import {authAPI} from "../api/api";
 import Loader from "../components/UI/Loader/Loader";
-import {Link, Redirect} from "react-router-dom";
+import {BrowserRouter, Link, Redirect} from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -24,11 +25,12 @@ const Login = () => {
         return <Loader/>
     }
     if (isError) {
-        return <Redirect to='/error'/>
+        return <ErrorMessage/>
     }
 
 
     return (
+
         !isAuth &&
         <div className='login'>
             <h2>Sign In</h2>
@@ -48,6 +50,7 @@ const Login = () => {
                 <h3>Don't have an account?</h3>
                 <Link to='/registration'>Sign Up</Link>
             </div>
+
 
         </div>
 

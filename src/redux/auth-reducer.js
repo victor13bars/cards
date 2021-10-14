@@ -20,7 +20,6 @@ let initialState = {
     rememberMe: false,
     error: null,
     isError: false,
-    isAuth: false,
     isLoading: false,
     isCreatedUser: false
 }
@@ -119,13 +118,17 @@ export const registerThunk = (email, password) => async (dispatch) => {
 export const authMeThunk = () => async (dispatch) => {
     try {
         dispatch(setLoading(true))
+
         let authMeData = await authAPI.authMe();
+        console.log("authMeData", authMeData)
         dispatch(setLoginInfo(authMeData))
         dispatch(setAuth(true))
-    } catch (e) {
-        dispatch(setError(e.response.data.error))
-        dispatch(setIsError(true))
-    } finally {
+    }
+    // } catch (e) {
+    //     dispatch(setError(e.response.data.error))
+    //     dispatch(setIsError(true))
+    // }
+    finally {
         dispatch(setLoading(false))
     }
 }
