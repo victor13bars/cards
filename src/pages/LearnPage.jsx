@@ -41,17 +41,20 @@ const LearnPage = () => {
     }
     const grade = (grade) => {
         dispatch(editGradeThunk(grade, card._id))
+        setAnswer(false)
         console.log(grade)
     }
     useEffect(() => {
         dispatch(setCardPageCount(1000))
         dispatch(getCardsThunk(packId))
+        return ()=>{
+            dispatch(setCardPageCount(4))
+        }
 
-
-    }, [packId])
+    }, [])
     useEffect(()=>{
-        if (cards.length > 0) setCard(getCard(cards));
-    },[cards])
+        setCard(getCard(cards));
+    },[])
 
     if (isLoading) {
         return <Loader/>
@@ -67,11 +70,11 @@ const LearnPage = () => {
             </div>
             {cards.length <=0  ?
                 <div>
-                    <h2>There are no cards in this pack</h2>
+                    <h2 style={{color:'red'}}>There are no cards in this pack</h2>
                 </div>
                 :
                 <div className='questionContainer'>
-                    <h2>Question: {card.question}</h2>
+                    <h2 style={{color:'darkred'}}>Question: {card.question}</h2>
                     <div className="doubleBtn">
                         <MyButton onClick={() => setAnswer(true)}>Show Answer</MyButton>
                         <MyButton onClick={nextCard}>Next Question</MyButton>
@@ -81,7 +84,7 @@ const LearnPage = () => {
 
             {answer && <div className='questionContainer'>
                 <h2>Answer: {card.answer}</h2>
-                <h2>Rate yourself: </h2>
+                <h2 style={{color:'darkred'}}>Rate yourself: </h2>
                 <div className='rateBtns'>
                     {grades.map((el, i) => <div key={i} className="rateBtn">
                         <MyButton onClick={() => grade(i + 1)}>{el}</MyButton>

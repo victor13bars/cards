@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MyButton from "./UI/button/MyButton";
 import "../styles/App.css"
-const SortButton = ({typeSort,startValue,endValue,SortUp,SortDown}) => {
+import {logoutThunk} from "../redux/auth-reducer";
+
+
+const SortButton = memo(({typeSort, startValue, endValue, SortUp, SortDown}) => {
+    console.log("SortButton")
     return (
         <div>
             <MyButton
@@ -14,6 +18,6 @@ const SortButton = ({typeSort,startValue,endValue,SortUp,SortDown}) => {
             >Down</MyButton>
         </div>
     );
-};
+})
 
 export default SortButton;

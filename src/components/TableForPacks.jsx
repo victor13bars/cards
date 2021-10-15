@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import "../styles/App.css"
 import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
@@ -9,8 +9,10 @@ import MyInput from "./UI/input/MyInput";
 import {NavLink, Redirect, useHistory} from "react-router-dom";
 import SortButton from "./SortButton";
 import {trueDate} from "./utils/trueDate";
+import Loader from "./UI/Loader/Loader";
+import ErrorMessage from "./ErrorMessage";
 
-const TableForPacks = () => {
+const TableForPacks = memo(() => {
     const columnNameTable = [
         {id: 1, columnName: 'Pack name'},
         {id: 2, columnName: 'Cards'},
@@ -18,6 +20,8 @@ const TableForPacks = () => {
         {id: 4, columnName: "Created By"},
         {id: 5, columnName: "Actions"}
     ]
+    const isLoading = useSelector(state => state.auth.isLoading)
+    const isError = useSelector(state => state.auth.isError)
     const packs = useSelector(state => state.packs.cardPacks)
     const dispatch = useDispatch()
     const isMyPacks = useSelector(state => state.packs.isMyPacks)
@@ -28,7 +32,7 @@ const TableForPacks = () => {
     const [inputEditModal, setInputEditModal] = useState("")
     const [saveId, setSaveId] = useState(0)
     const history = useHistory()
-    console.log("TableForPacks",packs)
+    console.log("TableForPacks", packs)
     const delOnClickBtn = (id) => {
         setDelModal(true)
         setSaveId(id)
@@ -58,7 +62,7 @@ const TableForPacks = () => {
             setInputEditModal('')
         }
     }
-    const SortUp = () => {
+    const SortUp = useCallback(() => {
         if (isMyPacks) {
             dispatch(setTypeSort("1updated"))
             dispatch(getPacksThunk(userId))
@@ -67,8 +71,9 @@ const TableForPacks = () => {
             dispatch(getPacksThunk())
         }
 
-    }
-    const SortDown = () => {
+    }, [isMyPacks])
+
+    const SortDown = useCallback(() => {
         if (isMyPacks) {
             dispatch(setTypeSort("0updated"))
             dispatch(getPacksThunk(userId))
@@ -76,8 +81,9 @@ const TableForPacks = () => {
             dispatch(setTypeSort("0updated"))
             dispatch(getPacksThunk())
         }
-    }
-    const SortColumnCardsUp = () => {
+    }, [isMyPacks])
+
+    const SortColumnCardsUp = useCallback(() => {
         if (isMyPacks) {
             dispatch(setTypeSort("1cardsCount"))
             dispatch(getPacksThunk(userId))
@@ -86,8 +92,9 @@ const TableForPacks = () => {
             dispatch(getPacksThunk())
         }
 
-    }
-    const SortColumnCardsDown = () => {
+    }, [isMyPacks])
+
+    const SortColumnCardsDown = useCallback(() => {
         if (isMyPacks) {
             dispatch(setTypeSort("0cardsCount"))
             dispatch(getPacksThunk(userId))
@@ -95,9 +102,17 @@ const TableForPacks = () => {
             dispatch(setTypeSort("0cardsCount"))
             dispatch(getPacksThunk())
         }
-    }
+    }, [isMyPacks])
+
     const learn = (id) => {
         history.push(`/learnPage/${id}`)
+    }
+
+    if (isLoading) {
+        return <Loader/>
+    }
+    if (isError) {
+        return <ErrorMessage/>
     }
     return (
         <div className='table_Container'>
@@ -113,12 +128,12 @@ const TableForPacks = () => {
             </MyModal>
 
             <MyModal visible={editModal} setVisible={setEditModal}>
-                <h3>Edit Pack</h3>
+                <p>Edit Pack</p>
                 <MyInput value={inputEditModal} placeholder='New pack name'
                          onChange={(e) => setInputEditModal(e.target.value)}/>
                 <div className='addNewPackModalBtn'>
-                    <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
-                    <MyButton onClick={editPack}>Save</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={() => setEditModal(false)}>Cancel</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={editPack}>Save</MyButton>
                 </div>
             </MyModal>
             <Table striped bordered hover>
@@ -182,6 +197,6 @@ const TableForPacks = () => {
             </Table>
         </div>
     );
-};
+});
 
 export default TableForPacks;

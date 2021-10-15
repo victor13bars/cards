@@ -1,14 +1,21 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {createPages, getPageCount, getPagesArray} from "../../utils/pagesCreator";
 import classes from "./Paginator.module.css"
 import {getPacksThunk, setPage, setPageCount} from "../../../redux/pack-reducer";
 import MySelect from "../MySelect/MySelect";
 
-const Paginator = ({pagesArray,page,cardPacksTotalCount,pageCount,onChangeCurPage,onChangeCurPageCount}) => {
+const Paginator = memo(({
+
+                            page,
+                            cardPacksTotalCount,
+                            pageCount, onChangeCurPage,
+                            onChangeCurPageCount
+                        }) => {
+    let pagesArray = []
     const totalPages = Math.ceil(cardPacksTotalCount / pageCount)
     createPages(pagesArray, totalPages, page)
-
+    console.log("PAginator")
     console.log("TOtal", totalPages)
     return (
         <div className={classes.page__wrapper}>
@@ -34,6 +41,6 @@ const Paginator = ({pagesArray,page,cardPacksTotalCount,pageCount,onChangeCurPag
             </div>
         </div>
     );
-};
+});
 
 export default Paginator;

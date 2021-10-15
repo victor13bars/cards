@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import MyButton from "../components/UI/button/MyButton";
 import '../styles/App.css'
 import {useDispatch, useSelector} from "react-redux";
@@ -8,16 +8,15 @@ import {
     setIsMyPacks,
     setPage,
     setPageCount,
-    setSearchValue, setTypeSort
+    setSearchValue,
+    setTypeSort
 } from "../redux/pack-reducer";
 import MyInput from "../components/UI/input/MyInput";
 import TableForPacks from "../components/TableForPacks";
 import SearchForm from "../components/SearchForm";
 import MyModal from "../components/UI/MyModal/MyModal";
 import Paginator from "../components/UI/Paginator/Paginator";
-import {authMeThunk} from "../redux/auth-reducer";
 import Loader from "../components/UI/Loader/Loader";
-import {Redirect} from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 
 const PacksList = () => {
@@ -33,8 +32,8 @@ const PacksList = () => {
     const dispatch = useDispatch()
     const [inputModal, setInputModal] = useState('')
     const [modal, setModal] = useState(false)
-    let pagesArray = []
 
+    console.log("PACKLIST")
     const getMyPack = () => {
         dispatch(setPage(1))
         dispatch(setPageCount(4))
@@ -65,6 +64,10 @@ const PacksList = () => {
     const addNewPackOpenModal = () => {
         setModal(true)
     }
+    const addNewPackCloseModal = () => {
+        setModal(false)
+        setInputModal('')
+    }
     const addNewPack = () => {
         if (isMyPacks) {
             dispatch(createPackThunk(inputModal, userId))
@@ -76,7 +79,7 @@ const PacksList = () => {
             setInputModal('')
         }
     }
-    const setCurPageCount = (value) => {
+    const setCurPageCount = useCallback((value) => {
         dispatch(setPage(1))
         if (isMyPacks) {
             dispatch(setPageCount(value))
@@ -85,9 +88,9 @@ const PacksList = () => {
             dispatch(setPageCount(value))
             dispatch(getPacksThunk())
         }
-    }
+    }, [isMyPacks])
 
-    const setCurPage = (page) => {
+    const setCurPage = useCallback((page) => {
         if (isMyPacks) {
             dispatch(setPage(page))
             dispatch(getPacksThunk(userId))
@@ -95,11 +98,11 @@ const PacksList = () => {
             dispatch(setPage(page))
             dispatch(getPacksThunk())
         }
-    }
+    }, [])
 
     useEffect(() => {
         dispatch(getPacksThunk())
-    }, [])
+    }, [isMyPacks])
 
     if (isLoading) {
         return <Loader/>
@@ -110,12 +113,12 @@ const PacksList = () => {
     return (
         <div className='packList'>
             <MyModal visible={modal} setVisible={setModal}>
-                <h3>Add new pack</h3>
+                <p>Add new pack</p>
                 <MyInput value={inputModal} placeholder='Name pack'
                          onChange={(e) => setInputModal(e.target.value)}/>
                 <div className='addNewPackModalBtn'>
-                    <MyButton onClick={() => setModal(false)}>Cancel</MyButton>
-                    <MyButton onClick={addNewPack}>Save</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={addNewPackCloseModal}>Cancel</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={addNewPack}>Save</MyButton>
                 </div>
             </MyModal>
             <div className='packListHeader'>
@@ -133,7 +136,6 @@ const PacksList = () => {
             && <>
                 <TableForPacks/>
                 <Paginator
-                    pagesArray={pagesArray}
                     page={page}
                     cardPacksTotalCount={cardPacksTotalCount}
                     pageCount={pageCount}

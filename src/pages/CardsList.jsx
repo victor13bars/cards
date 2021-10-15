@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import "../styles/App.css"
 import {useParams} from 'react-router-dom'
 import SearchForm from "../components/SearchForm";
@@ -14,7 +14,7 @@ import Loader from "../components/UI/Loader/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 
 const CardsList = () => {
-    let pagesArray = []
+    console.log("CardsList")
     const dispatch = useDispatch();
     const {packId} = useParams();
     const cardsArray = useSelector(state => state.cards.cards)
@@ -36,18 +36,19 @@ const CardsList = () => {
         dispatch(setSearchQuestion(question))
         dispatch(getCardsThunk(packId))
     }
-    const setCurPageCount = (value) => {
+    const setCurPageCount = useCallback((value) => {
         dispatch(setCardPage(1))
         dispatch(setCardPageCount(value))
         dispatch(getCardsThunk(packId))
-    }
+    }, [page])
 
-    const setCurPage = (page) => {
+    const setCurPage = useCallback((page) => {
         dispatch(setCardPage(page))
         dispatch(getCardsThunk(packId))
-    }
+    }, [page])
 
     useEffect(() => {
+        dispatch(setCardPage(1))
         dispatch(getCardsThunk(packId))
     }, [packId])
 
@@ -59,41 +60,44 @@ const CardsList = () => {
     }
 
     return (
-        <div className='packList'>
-            <MyModal visible={modal} setVisible={setModal}>
-                <h3>Add new card</h3>
-                <MyInput value={question} placeholder='Question'
-                         onChange={(e) => setQuestion(e.target.value)}/>
-                <MyInput value={answer} placeholder='Answer'
-                         onChange={(e) => setAnswer(e.target.value)}/>
-                <div className='addNewPackModalBtn'>
-                    <MyButton onClick={() => setModal(false)}>Cancel</MyButton>
-                    <MyButton onClick={addNewCard}>Save</MyButton>
-                </div>
-            </MyModal>
-            <div className='packListHeader'>
-                <h2>Cards List</h2>
-            </div>
-            <div className='searchAndBtn'>
-                <SearchForm searchCallBack={searchCard} placeholder="search for questions"/>
-                <MyButton onClick={() => setModal(true)}>Add new card</MyButton>
-            </div>
-            {cardsArray.length > 1
-            &&
-            <>
-                <TableForCards packId={packId}/>
-                <Paginator
-                    pagesArray={pagesArray}
-                    page={page}
-                    cardPacksTotalCount={cardsTotalCount}
-                    pageCount={pageCount}
-                    onChangeCurPage={setCurPage}
-                    onChangeCurPageCount={setCurPageCount}
-                />
-            </>
-            }
+        <>
+            {cardsArray.length >= 1
+                ?
 
-        </div>
+                <div className='packList'>
+                    <MyModal visible={modal} setVisible={setModal}>
+                        <p>Add new card</p>
+                        <MyInput value={question} placeholder='Question'
+                                 onChange={(e) => setQuestion(e.target.value)}/>
+                        <MyInput value={answer} placeholder='Answer'
+                                 onChange={(e) => setAnswer(e.target.value)}/>
+                        <div className='addNewPackModalBtn'>
+                            <MyButton className='addNewPackModalButton' onClick={() => setModal(false)}>Cancel</MyButton>
+                            <MyButton className='addNewPackModalButton' onClick={addNewCard}>Save</MyButton>
+                        </div>
+                    </MyModal>
+                    <div className='packListHeader'>
+                        <h2>Cards List</h2>
+                    </div>
+                    <div className='searchAndBtn'>
+                        <SearchForm searchCallBack={searchCard} placeholder="search for questions"/>
+                        <MyButton onClick={() => setModal(true)}>Add new card</MyButton>
+                    </div>
+                    <TableForCards packId={packId}/>
+                    <Paginator
+                        page={page}
+                        cardPacksTotalCount={cardsTotalCount}
+                        pageCount={pageCount}
+                        onChangeCurPage={setCurPage}
+                        onChangeCurPageCount={setCurPageCount}
+                    />
+                    }
+
+                </div>
+                :
+                <div><h2 style={{marginTop: "20px", color: "red"}}>There are no cards in this pack!</h2></div>
+            }
+        </>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import "../styles/App.css"
 import Table from "react-bootstrap/Table";
 import MyButton from "./UI/button/MyButton";
@@ -17,7 +17,7 @@ const TableForCards = ({packId}) => {
         {id: 4, columnName: "Grade"},
         {id: 5, columnName: "Actions"}
     ]
-    console.log("packId",packId)
+    console.log("packId", packId)
     const cardsArray = useSelector(state => state.cards.cards)
     const dispatch = useDispatch()
     const userId = useSelector(state => state.auth._id)
@@ -48,22 +48,22 @@ const TableForCards = ({packId}) => {
         setAnswer('')
         setQuestion("")
     }
-    const SortUp = () => {
-            dispatch(setCardTypeSort("1grade"))
-            dispatch(getCardsThunk(packId))
-    }
-    const SortDown = () => {
+    const SortUp = useCallback(() => {
+        dispatch(setCardTypeSort("1grade"))
+        dispatch(getCardsThunk(packId))
+    }, [])
+    const SortDown = useCallback(() => {
         dispatch(setCardTypeSort("0grade"))
         dispatch(getCardsThunk(packId))
-    }
-    const SortUpdatedUp = () => {
+    }, [])
+    const SortUpdatedUp = useCallback(() => {
         dispatch(setCardTypeSort("1updated"))
         dispatch(getCardsThunk(packId))
-    }
-    const SortUpdatedDown = () => {
+    }, [])
+    const SortUpdatedDown = useCallback(() => {
         dispatch(setCardTypeSort("0updated"))
         dispatch(getCardsThunk(packId))
-    }
+    }, [])
     return (
         <div>
             <MyModal visible={delModal} setVisible={setDelModal}>
@@ -76,14 +76,14 @@ const TableForCards = ({packId}) => {
             </MyModal>
 
             <MyModal visible={editModal} setVisible={setEditModal}>
-                <h3>Edit card</h3>
+                <p>Edit card</p>
                 <MyInput value={question} placeholder='Question'
                          onChange={(e) => setQuestion(e.target.value)}/>
                 <MyInput value={answer} placeholder='Answer'
                          onChange={(e) => setAnswer(e.target.value)}/>
                 <div className='addNewPackModalBtn'>
-                    <MyButton onClick={() => setEditModal(false)}>Cancel</MyButton>
-                    <MyButton onClick={editPack}>Save</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={() => setEditModal(false)}>Cancel</MyButton>
+                    <MyButton className='addNewPackModalButton' onClick={editPack}>Save</MyButton>
                 </div>
             </MyModal>
             <Table striped bordered hover>
@@ -103,19 +103,19 @@ const TableForCards = ({packId}) => {
                                     />
                                 </th>
                             }
-                        if (el.columnName === "Last updated") {
+                            if (el.columnName === "Last updated") {
 
-                            return <th key={el.id}>
-                                {el.columnName}
-                                <SortButton
-                                    typeSort={typeSort}
-                                    startValue="0updated"
-                                    endValue="1updated"
-                                    SortUp={SortUpdatedUp}
-                                    SortDown={SortUpdatedDown}
-                                />
-                            </th>
-                        }
+                                return <th key={el.id}>
+                                    {el.columnName}
+                                    <SortButton
+                                        typeSort={typeSort}
+                                        startValue="0updated"
+                                        endValue="1updated"
+                                        SortUp={SortUpdatedUp}
+                                        SortDown={SortUpdatedDown}
+                                    />
+                                </th>
+                            }
                             return <th key={el.id}>{el.columnName}</th>
                         }
                     )}
